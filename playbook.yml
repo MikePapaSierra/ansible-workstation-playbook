@@ -1,0 +1,13 @@
+- hosts: localhost
+  tasks:
+  - import_tasks: tasks/sudo.yml
+  - import_tasks: tasks/utils.yml
+  - import_tasks: tasks/docker.yml
+  - import_tasks: tasks/snap.yml
+  - import_tasks: tasks/applications.yml
+  - import_tasks: tasks/git.yml
+  - import_tasks: tasks/fish.yml
+  - import_tasks: tasks/neovim.yml
+  - import_tasks: tasks/tmux.yml
+  - import_tasks: tasks/kitty.yml
+  - import_tasks: tasks/starship.yml

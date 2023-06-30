@@ -1,0 +1,25 @@
+- name: Install Tmux
+  become: true
+  pacman:
+    name: tmux
+    state: latest
+  tags:
+    - tmux
+- name: Get Tmux dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/tmux.git
+    dest: /home/kamikazestar/.config/tmux
+    single_branch: yes
+    version: master
+    update: no
+  tags:
+    - tmux
+- name: Create symlink to configuration file
+  become: false
+  ansible.builtin.file:
+    src: /home/kamikazestar/.config/tmux/tmux.conf
+    dest: /home/kamikazestar/.tmux.conf
+    state: link
+  tags:
+    - tmux

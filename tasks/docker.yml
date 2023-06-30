@@ -1,0 +1,23 @@
+- name: Install Docker
+  become: true
+  pacman:
+    name: docker
+    state: latest
+  tags:
+    - docker
+- name: Enable and start Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: true
+    state: started
+  tags:
+    - docker
+- name: Add user to the docker group
+  become: true
+  ansible.builtin.user:
+    name: kamikazestar
+    groups: docker
+    append: true
+  tags:
+    - docker

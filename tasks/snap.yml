@@ -1,0 +1,39 @@
+- name: Install Snap
+  become: true
+  pacman:
+    name: snapd
+    state: latest 
+  tags:
+    - snap
+- name: Enable Snap communication socket
+  become: true
+  ansible.builtin.systemd:
+    name: snapd.socket
+    enabled: true
+    state: started
+  tags:
+    - snap
+- name: Enable Snap AppArmor
+  become: true
+  ansible.builtin.systemd:
+    name: snapd.apparmor
+    enabled: true
+    state: started
+  tags:
+    - snap
+- name: Enable classic snap support
+  ansible.builtin.file:
+    src: /var/lib/snapd/snap
+    dest: /snap
+    state: link
+  tags:
+    - snap
+- name: Create link for snapd applications
+  become: false
+  ansible.builtin.file:
+    src: /var/lib/snapd/desktop/applications
+    dest: /home/kamikazestar/.local/share/applications/snap
+    state: link
+  tags:
+    - snap
+

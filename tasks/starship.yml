@@ -1,0 +1,25 @@
+- name: Install Starship
+  become: true
+  pacman:
+    name: starship
+    state: latest
+  tags:
+    - starship
+- name: Get Starship dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/starship.git
+    dest: /home/kamikazestar/.config/starship
+    single_branch: yes
+    version: main 
+    update: no
+  tags:
+    - starship
+- name: Create symlink for starship.toml
+  become: false
+  ansible.builtin.file:
+    src: /home/kamikazestar/.config/starship/starship.toml
+    dest: /home/kamikazestar/.config/starship.toml
+    state: link
+  tags:
+    - starship

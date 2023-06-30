@@ -1,0 +1,25 @@
+- name: Install Git
+  become: true
+  pacman:
+    name: git
+    state: present
+  tags:
+    - git
+- name: Get Git dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/git.git
+    dest: /home/kamikazestar/.config/git
+    single_branch: yes
+    version: main
+    update: no
+  tags:
+    - git
+- name: Create link for config file
+  become: false
+  ansible.builtin.file:
+    src: /home/kamikazestar/.config/git/gitconfig
+    dest: /home/kamikazestar/.gitconfig
+    state: link
+  tags:
+    - git

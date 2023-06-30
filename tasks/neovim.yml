@@ -1,0 +1,24 @@
+- name: Install Neovim
+  become: true
+  pacman:
+    name: neovim
+    state: latest
+  tags:
+    - neovim
+- name: Install Python3 provider
+  become: true
+  pacman:
+    name: python-pynvim
+    state: latest
+  tags:
+    - neovim
+- name: Get Neovim dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/nvim.git
+    dest: /home/kamikazestar/.config/nvim
+    single_branch: yes
+    version: master
+    update: no
+  tags:
+    - neovim
