@@ -10,10 +10,10 @@ Note that this is still work in progress and some things can change and/or remov
 Main goal of this project is to provide way to easly and automatically configure new workstation, server, virtual machine or docker container to heve persistent work environment across all machines.
 As an option below actions should be available:
 
-[ ] Be able to configure GUI based environment
-[ ] Be able to configure CLI based environment
-[ ] Be able to upgrade OS to newest available version
-[ ] Be able to update single package to latest version by default
+- [ ] Be able to configure GUI based environment
+- [ ] Be able to configure CLI based environment
+- [ ] Be able to upgrade OS to newest available version
+- [ ] Be able to update single package to latest version by default
 
 # Requirements
 
@@ -65,44 +65,44 @@ Currently tests environments aren't available, please folow roadmap.
 Not known.
 
 ## Roadmap
-[ ] Create Docker image to provide ability to easly test CLI based applications 
-[ ] Create VirtualBox based Vagrant box
-[ ] Create libvirt/qemu based Vagrant box
-[ ] Create Vagrant file that will allow to easly test GUI based applications
-[ ] Create Bash script that will install Ansible as pre-requisite 
-[ ] Task to add SSH keys encrypted by Ansible Vault to the configuration - this will allow for automatic provisioning
-[ ] Ensure that user account creation will not override data in home directory
-[ ] Ensure that user is using Fish as defult shell
-[ ] Task for installation of the oh-my-fish
-[ ] Task for PIP packages installation
-[ ] Task for installation of the npm
-[ ] Install commitzen (https://github.com/commitizen/cz-cli)
-[ ] Task for installation of the nitrogen
-[ ] Task for installation of the Gnome
-[ ] Finish task with installation and configuration of i3
-[ ] Figure out how to install and configure DraculaPro color theme for Neovim
+- [ ] Create Docker image to provide ability to easly test CLI based applications 
+- [ ] Create VirtualBox based Vagrant box
+- [ ] Create libvirt/qemu based Vagrant box
+- [ ] Create Vagrant file that will allow to easly test GUI based applications
+- [ ] Create Bash script that will install Ansible as pre-requisite 
+- [ ] Task to add SSH keys encrypted by Ansible Vault to the configuration - this will allow for automatic provisioning
+- [ ] Ensure that user account creation will not override data in home directory
+- [ ] Ensure that user is using Fish as defult shell
+- [ ] Task for installation of the oh-my-fish
+- [ ] Task for PIP packages installation
+- [ ] Task for installation of the npm
+- [ ] Install commitzen (https://github.com/commitizen/cz-cli)
+- [ ] Task for installation of the nitrogen
+- [ ] Task for installation of the Gnome
+- [ ] Finish task with installation and configuration of i3
+- [ ] Figure out how to install and configure DraculaPro color theme for Neovim
     1. Vim theme need to be put as an private repository
     2. Repository should be placed in the ``~/.local/share/nvim/site/pack/themes/start/dracula_pro`` directory
     3. dos2unix needs to be installed
     4. ``find . -type f -exec dos2unix {} \;`` command needs to be executed on dracula_pro directory
-[ ] Task for KiCAD installation
-[ ] Task for Bash configuration
-[ ] Task for Arduino IDE installation
-[ ] Ensure that Ansible is present to be able run playbook
-[ ] Task for Tfsec installation
-[ ] Task for Checkov installation
-[ ] Task to create folder directiry structure in home folder
-[ ] Task to install Kubespray
-[ ] Task to install Kind
-[ ] Task to install OBS
-[ ] Task to install Darktable
-[ ] Task to install Kdenlive
-[ ] Task to install Dust
-[ ] Task to install i3Blocks
-[ ] Extend that to Ubuntu based OS (provide Vagrant box and file; prepare Docker image)
-[ ] Task to install and comfigure TaskWarrior
-[ ] Balena-etcher install task does not work
-[ ] Add support for WSL/WSL2
+- [ ] Task for KiCAD installation
+- [ ] Task for Bash configuration
+- [ ] Task for Arduino IDE installation
+- [ ] Ensure that Ansible is present to be able run playbook
+- [ ] Task for Tfsec installation
+- [ ] Task for Checkov installation
+- [ ] Task to create folder directiry structure in home folder
+- [ ] Task to install Kubespray
+- [ ] Task to install Kind
+- [ ] Task to install OBS
+- [ ] Task to install Darktable
+- [ ] Task to install Kdenlive
+- [ ] Task to install Dust
+- [ ] Task to install i3Blocks
+- [ ] Extend that to Ubuntu based OS (provide Vagrant box and file; prepare Docker image)
+- [ ] Task to install and comfigure TaskWarrior
+- [ ] Balena-etcher install task does not work
+- [ ] Add support for WSL/WSL2
 
 ## License
 
