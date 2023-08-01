@@ -1,0 +1,10 @@
+---
+- name: Install Terraform
+  become: true
+  ansible.builtin.package:
+    name: terraform
+    state: "{{ pkg_state }}"
+  tags:
+    - terraform
+    - cloud
+    - development

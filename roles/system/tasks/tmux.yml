@@ -1,10 +1,13 @@
+---
 - name: Install Tmux
   become: true
   pacman:
     name: tmux
-    state: latest
+    state: "{{ pkg_state }}"
   tags:
     - tmux
+    - system
+
 - name: Get Tmux dotfiles
   become: false
   ansible.builtin.git:
@@ -15,6 +18,8 @@
     update: no
   tags:
     - tmux
+    - system
+
 - name: Create symlink to configuration file
   become: false
   ansible.builtin.file:
@@ -23,3 +28,4 @@
     state: link
   tags:
     - tmux
+    - system

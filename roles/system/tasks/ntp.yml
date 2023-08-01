@@ -1,0 +1,17 @@
+---
+- name: Configure timezone
+  become: true
+  community.general.timezone:
+    name: "{{ timezone }}"
+  tags:
+    - ntp
+    - system
+
+- name: Make sure that NTP service is running
+  become: true
+  ansible.builtin.systemd:
+    name: ntpd
+    state: started
+  tags:
+    - ntp
+    - system

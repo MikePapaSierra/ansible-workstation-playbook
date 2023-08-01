@@ -1,0 +1,21 @@
+---
+- name: Install 1Password
+  kewlfft.aur.aur:
+    name: 1password
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - 1password
+    - gui
+    - security
+
+- name: Install 1Password CLI
+  kewlfft.aur.aur:
+    name: 1password-cli
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - 1password-cli
+    - cli
+    - security
+

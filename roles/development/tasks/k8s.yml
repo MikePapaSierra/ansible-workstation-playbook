@@ -1,0 +1,71 @@
+---
+- name: Install kubectl
+  become: true
+  ansible.builtin.package:
+    name: kubectl
+    state: "{{ pkg_state }}"
+  tags:
+    - kubectl
+    - k8s
+    - development
+
+- name: Install k9s
+  become: true
+  ansible.builtin.package:
+    name: k9s
+    state: "{{ pkg_state }}"
+  tags:
+    - k9s
+    - k8s
+    - development
+
+- name: Install kubectx
+  become: true
+  ansible.builtin.package:
+    name: kubectx
+    state: "{{ pkg_state }}"
+  tags:
+    - kubectx
+    - k8s
+    - development
+
+- name: Install kubens
+  become: true
+  ansible.builtin.package:
+    name: kubens
+    state: "{{ pkg_state }}"
+  tags:
+    - kubens
+    - k8s
+    - development
+
+- name: Install stern
+  become: true
+  ansible.builtin.package:
+    name: stern
+    state: "{{ pkg_state }}"
+  tags:
+    - stern
+    - k8s
+    - development
+
+- name: Install helm
+  become: true
+  ansible.builtin.package:
+    name: helm
+    state: "{{ pkg_state }}"
+  tags:
+    - helm
+    - k8s
+    - development
+
+- name: Install minikube
+  become: true
+  ansible.builtin.package:
+    name: minikube
+    state: "{{ pkg_state }}"
+  tags:
+    - minikube
+    - k8s
+    - development
+

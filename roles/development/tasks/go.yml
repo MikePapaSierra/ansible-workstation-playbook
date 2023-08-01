@@ -1,0 +1,43 @@
+---
+- name: Install Go
+  become: true
+  ansible.builtin.package:
+    name: go
+    state: "{{ pkg_state }}"
+  tags:
+    - go
+    - development
+
+- name: Install go-tools
+  become: true
+  ansible.builtin.package:
+    name: go-tools
+    state: "{{ pkg_state }}"
+  tags:
+    - go
+    - development
+
+- name: Add 'GOPATH' to Fish configuration
+  become: false
+  ansible.builtin.lineinfile:
+    dest: /home/{{ username }}/.config/fish/config.fish
+    regexp: GOPATH
+    line: set GOPATH $HOME/go
+    owner: "{{ username }}"
+    state: present
+  notify: source $HOME/.config/fish/config.fish
+  tags:
+    - go
+    - development
+
+- name: Add Go to the 'PATH'
+  become: false
+  ansible.builtin.lineinfile:
+    dest: /home/{{ username }}/.config/fish/config.fish
+    regexp: PATH
+    line: set  PATH $HOME/go/bin $PATH
+    owner: "{{ username }}"
+    state: present
+  tags:
+    - go
+    - development

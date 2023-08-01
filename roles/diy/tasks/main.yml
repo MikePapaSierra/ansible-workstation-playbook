@@ -1,0 +1,19 @@
+---
+- name: Install FreeCAD
+  become: true
+  ansible.builtin.package:
+    name: freecad
+    state: "{{ pkg_state }}"
+  tags:
+    - freecad
+    - diy
+
+- name: Install Cura
+  kewlfft.aur.aur:
+    name: cura-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - cura
+    - gui
+    - diy

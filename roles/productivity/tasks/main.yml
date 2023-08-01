@@ -1,0 +1,10 @@
+---
+- name: Install Obsidian
+  become: true
+  ansible.builtin.package:
+    name: obsidian
+    state: "{{ pkg_state }}"
+  tags:
+    - obsidian
+    - gui
+    - productivity

@@ -1,0 +1,40 @@
+---
+- name: Install Nerd Fonts
+  become: true
+  ansible.builtin.package:
+    name:
+      - ttf-meslo-nerd-font-powerlevel10k
+      - ttf-nerd-fonts-symbols-mono
+      - ttf-nerd-fonts-symbols-common
+      - ttf-nerd-fonts-symbols
+      - ttf-anonymouspro-nerd
+      - ttf-cascadia-code-nerd
+      - ttf-firacode-nerd
+      - ttf-hack-nerd
+      - ttf-inconsolata-nerd
+      - ttf-iosevka-nerd
+      - ttf-iosevkaterm-nerd
+      - ttf-jetbrains-mono-nerd
+      - ttf-sourcecodepro-nerd
+      - ttf-terminus-nerd
+      - ttf-ubuntu-mono-nerd
+      - ttf-ubuntu-nerd
+    state: "{{ pkg_state }}"
+  tags:
+    - nerdFonts
+    - fonts
+    - gui
+    - system
+
+- name: Install IntelOne Mono font
+  kewlfft.aur.aur:
+    name:
+      - ttf-intel-one-mono
+      - otf-intel-one-mono
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - intel-one-mono
+    - fonts
+    - gui
+    - system

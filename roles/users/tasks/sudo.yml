@@ -1,0 +1,19 @@
+---
+- name: Make sure we have a 'wheel' group
+  become: true
+  group:
+    name: wheel
+    state: present
+  tags:
+  - sudo
+  - users
+
+- name: Allow 'wheel' group to have passwordless sudo
+  become: true
+  ansible.builtin.replace:
+    dest: /etc/sudoers.d/10-installer
+    regexp: '\%wheel ALL=\(ALL\) ALL'
+    replace: "%wheel ALL=(ALL) NOPASSWD: ALL"
+  tags:
+  - sudo
+  - users

@@ -1,0 +1,11 @@
+---
+- name: Install Visual Studio Code
+  kewlfft.aur.aur:
+    name:
+      - visual-studio-code-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - visual-studio-code
+    - editors
+

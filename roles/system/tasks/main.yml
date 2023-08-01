@@ -1,0 +1,145 @@
+---
+- name: Update cache and upgrade
+  become: true
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  tags:
+    - pre
+    - osUpgrade
+    - system
+
+- name: Configure sudo
+  become: true
+  ansible.builtin.replace:
+    path: "/etc/sudoers.d/10-installer"
+    regexp: '\%wheel ALL=\(ALL\) ALL'
+    replace: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+  tags:
+    - sudo
+    - system
+
+- name: Create the `aur_builder` user
+  become: yes
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: yes
+    group: wheel
+  tags:
+    - aur
+    - system
+
+- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur_builder
+    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: yes
+    mode: 0644
+    validate: 'visudo -cf %s'
+  tags:
+    - aur
+    - system
+
+- name: Install yay
+  become: true
+  ansible.builtin.package:
+    name:
+      - yay
+    state: "{{ pkg_state }}"
+  tags:
+    - yay
+    - aur
+    - system
+
+- name: Install CLI utils
+  become: true
+  ansible.builtin.package:
+    name:
+     - base-devel
+     - binutils 
+     - gcc
+     - lib32-glibc
+     - make
+     - openssl
+     - keychain
+     - htop
+     - fzf
+     - ripgrep
+     - pwgen
+     - ntp
+     - tree
+     - wget
+    state: "{{ pkg_state }}"
+  tags:
+    - utils
+    - system
+
+- name: Install extra CLI utils
+  become: true
+  ansible.builtin.package:
+    name:
+     - bottom
+     - bashtop
+     - neofetch
+     - dog
+     - fd
+     - sd
+     - ncdu
+     - dust
+     - duf
+     - xh
+     - bat
+    state: "{{ pkg_state }}"
+  tags:
+    - extraUtils
+    - system
+
+- name: Install GUI utils
+  become: true
+  ansible.builtin.package:
+    name: solaar
+    state: "{{ pkg_state }}"
+  tags:
+    - guiUtils
+    - system
+
+# This is taking way too long
+# Bassically it hangs on this step
+# It seems that make is used instead yay
+#- name: Install GUI utils from AUR
+#  kewlfft.aur.aur:
+#    name: balena-etcher
+#    use: yay
+#    state: "{{ pkg_state }}"
+#  tags:
+#    - aurGuiUtils
+#    - system
+ 
+- name: Configure NTP
+  ansible.builtin.import_tasks: ntp.yml
+
+- name: Install and configure Fish
+  ansible.builtin.import_tasks: fish.yml
+
+- name: Install and configure Starship
+  ansible.builtin.import_tasks: starship.yml
+
+- name: Install and configure Tmux
+  ansible.builtin.import_tasks: tmux.yml
+
+- name: Install and configure Git
+  ansible.builtin.import_tasks: git.yml
+
+- name: Install and configure Neovim
+  ansible.builtin.import_tasks: neovim.yml
+
+- name: Install fonts
+  ansible.builtin.import_tasks: fonts.yml
+
+- name: Install and configure Kitty
+  ansible.builtin.import_tasks: kitty.yml
+
+- name: Install and configure Snap
+  ansible.builtin.import_tasks: snap.yml

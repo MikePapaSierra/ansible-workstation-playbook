@@ -1,0 +1,44 @@
+---
+- name: Install developer utils
+  become: true
+  ansible.builtin.package:
+    name:
+      - jq
+    state: "{{ pkg_state }}"
+  tags:
+    - dev-utils
+    - development
+
+- name: Install developer utils from AUR
+  kewlfft.aur.aur:
+    name:
+      - jqp
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - dev-utils-aur
+    - development
+
+- name: Install and configure Go
+  ansible.builtin.import_tasks: go.yml
+
+- name: Install and configure Python
+  ansible.builtin.import_tasks: python.yml
+
+- name: Install and configure Docker
+  ansible.builtin.import_tasks: docker.yml
+
+- name: Install and configure Kubernetes tools
+  ansible.builtin.import_tasks: k8s.yml
+
+- name: Install Terraform
+  ansible.builtin.import_tasks: terraform.yml
+
+- name: Install AWS tools
+  ansible.builtin.import_tasks: aws.yml
+
+- name: Install Postman
+  ansible.builtin.import_tasks: postman.yml
+
+- name: Install GitHub CLI
+  ansible.builtin.import_tasks: github.yml

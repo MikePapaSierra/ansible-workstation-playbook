@@ -1,0 +1,20 @@
+---
+- name: Install Brave
+  become: true
+  ansible.builtin.package:
+    name: brave-browser
+    state: "{{ pkg_state }}"
+  tags:
+    - brave
+    - browsers
+    - gui
+
+- name: Install Firefox
+  become: true
+  ansible.builtin.package:
+    name: firefox
+    state: "{{ pkg_state }}"
+  tags:
+    - firefox
+    - browsers
+    - gui

@@ -1,0 +1,10 @@
+---
+- name: Install Spotify
+  kewlfft.aur.aur:
+    name: spotify
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - spotify
+    - gui
+    - media

@@ -1,0 +1,54 @@
+---
+- name: Install Git
+  become: true
+  pacman:
+    name: git
+    state: "{{ pkg_state }}"
+  tags:
+    - git
+    - system
+
+- name: Get Git dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/git.git
+    dest: /home/{{ username }}/.config/git
+    single_branch: yes
+    version: main
+    update: no
+  tags:
+    - git
+    - system
+
+- name: Create link for config file
+  become: false
+  ansible.builtin.file:
+    src: /home/{{ username }}/.config/git/gitconfig
+    dest: /home/{{ username }}/.gitconfig
+    state: link
+  tags:
+    - git
+    - system
+
+- name: Install Lazygit
+  become: true
+  pacman:
+    name: lazygit
+    state: "{{ pkg_state }}"
+  tags:
+    - lazygit
+    - git
+    - system
+
+- name: Get Lazygit config
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/lazygit.git
+    dest: /home/{{ username }}/.config/lazygit
+    single_branch: true
+    version: main
+    update: no
+  tags:
+    - lazygit
+    - git
+    - system

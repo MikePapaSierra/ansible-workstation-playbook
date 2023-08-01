@@ -1,0 +1,10 @@
+---
+- name: Install GitHub CLI
+  become: true
+  ansible.builtin.package:
+    name: github-cli
+    state: "{{ pkg_state }}"
+  tags:
+    - github-cli
+    - dev-utils
+    - development

@@ -1,10 +1,13 @@
+---
 - name: Install Starship
   become: true
   pacman:
     name: starship
-    state: latest
+    state: "{{ pkg_state }}"
   tags:
     - starship
+    - system
+
 - name: Get Starship dotfiles
   become: false
   ansible.builtin.git:
@@ -15,6 +18,8 @@
     update: no
   tags:
     - starship
+    - system
+
 - name: Create symlink for starship.toml
   become: false
   ansible.builtin.file:
@@ -23,3 +28,4 @@
     state: link
   tags:
     - starship
+    - system

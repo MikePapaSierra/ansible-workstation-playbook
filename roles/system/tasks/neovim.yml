@@ -1,17 +1,24 @@
+---
 - name: Install Neovim
   become: true
-  pacman:
+  ansible.builtin.package:
     name: neovim
-    state: latest
+    state: "{{ pkg_state }}"
   tags:
     - neovim
+    - editors
+    - system
+
 - name: Install Python3 provider
   become: true
-  pacman:
+  ansible.builtin.package:
     name: python-pynvim
-    state: latest
+    state: "{{ pkg_state }}"
   tags:
     - neovim
+    - editors
+    - system
+
 - name: Get Neovim dotfiles
   become: false
   ansible.builtin.git:
@@ -22,3 +29,6 @@
     update: no
   tags:
     - neovim
+    - editors
+    - system
+

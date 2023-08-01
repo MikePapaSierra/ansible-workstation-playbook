@@ -1,0 +1,10 @@
+---
+- name: Install Postman
+  kewlfft.aur.aur:
+    name: postman-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - postman
+    - api
+    - development

@@ -1,17 +1,25 @@
+---
 - name: Install Kitty
-  become: yes
+  become: true
   pacman:
     name: [ kitty, kitty-shell-integration, kitty-terminfo ]
-    state: latest
+    state: "{{ pkg_state }}"
   tags:
     - kitty
+    - terminal
+    - gui
+    - system
+
 - name: Get Kitty dotfiles
   become: false
   ansible.builtin.git:
     repo: git@github.com:kamikazestar/kitty.git
-    dest: /home/kamikazestar/.config/kitty
+    dest: /home/{{ username }}/.config/kitty
     single_branch: yes
     version: main
     update: no
   tags:
     - kitty
+    - terminal
+    - gui
+    - system

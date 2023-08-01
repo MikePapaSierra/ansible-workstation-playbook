@@ -1,13 +1,16 @@
-- hosts: localhost
-  tasks:
-  - import_tasks: tasks/sudo.yml
-  - import_tasks: tasks/utils.yml
-  - import_tasks: tasks/docker.yml
-  - import_tasks: tasks/snap.yml
-  - import_tasks: tasks/applications.yml
-  - import_tasks: tasks/git.yml
-  - import_tasks: tasks/fish.yml
-  - import_tasks: tasks/neovim.yml
-  - import_tasks: tasks/tmux.yml
-  - import_tasks: tasks/kitty.yml
-  - import_tasks: tasks/starship.yml
+---
+- name: Configure a Manjaro OS with i3 as development workstation
+  hosts: localhost
+  roles:
+    - {role: system, tags: [system]}
+    - {role: browsers, tags: [browsers]}
+    - {role: communication, tags: [communication]}
+    - {role: development, tags: [development]}
+    - {role: diy, tags: [diy]}
+    - {role: editors, tags: [editors]}
+    - {role: media, tags: [media]}
+    - {role: productivity, tags: [productivity]}
+    - {role: security, tags: [security]}
+    - {role: users, tags: [users]}
+    - {role: virtualization, tags: [virtualization]}
+

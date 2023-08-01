@@ -1,85 +1,117 @@
 # ansible-workstation-playbook
 
-Ansible playbook that will configure new workstation from the scratch.
+Fully automated provisioning of the development environment based on Manjaro with i3.
 
-## Supported OS 
+DISCAIMER:
+Note that this is still work in progress and some things can change and/or removed.
 
-Currently it's only supports Arch-based Linux operating systems that are using Pamac as package manager.
+## Goals
 
-## TODO
+Main goal of this project is to provide way to easly and automatically configure new workstation, server, virtual machine or docker container to heve persistent work environment across all machines.
+As an option below actions should be available:
 
-Please beare in mind that this is in progress and things can change.
+[ ] Be able to configure GUI based environment
+[ ] Be able to configure CLI based environment
+[ ] Be able to upgrade OS to newest available version
+[ ] Be able to update single package to latest version by default
 
-### Tags
-Tags need to be re-think to allow differenciate type of the intallations like CLI only or/and GUI.
-Each of the programs should have dedicated tag that will allow to install/update and configure only this one program.
+# Requirements
 
-### Cloud
-Think how we can handle EC2 instances wher I would like to have the same environment.
-This can be used by user_data script, AMI itself, SSM... there is plenty of powwibilities.
+To run this playbook Ansible need to be installed on the operating system. Some kind of the Bash script that will install Ansible will be provided - please look to the Roadmap section.
 
-### Testing
-Prepeare Dockerfile that will build container for tests.
+Currently one Ansible Galaxy role is required to sucessfully run this playbook:
+- [kewlfft.aur](https://github.com/kewlfft/ansible-aur)
 
-## Dotfiles
-- SSH key encrypted by vault
-- i3
+All required roles had been addedd to the ``requirements.yml`` file and can be easly instaled by running command ``ansible-galaxy install -r requirements.yml`` before first run of the ``ansible-playbook ...`` command.
 
-## Utils
-- Belena Etcher
-- bashtop
-- fzf
-- coc
-- dunst
-- i3
-- i3blocks?
-- neofetch
-- polybar
-- rofi
-- solaar
-- peco
-- z
-- lazygit
+### Operating system
 
-## Apperance
-- NerdFonts
-- DraculaPro color theme
+Projects was started with Manjaro Linux as operating system in mind, however usage ``ansible.builtin.package`` module should allow to install packages supported on another Linux distributions such Ubuntu or Fedora, but that wasn't proven yet.
 
-## Cloud
-- Terraform
-- checkov
-- AWS CLI
-- tfsec
+### System upgrade
 
-## Kubernetes
-- kubectl
-- k9s
+It's possible to upgrade operating system using this Ansible playbook by executing below command:
+``ansible-playbook playbook.yml -l localhost -t osUpgrade ``
+It's also possible to upgrade single package due to fact that in file ``group_vars/all`` as variable ``pkg_state`` latest is specyfied by default and each application is tagged.
+``ansible-playbook playbook.yml -l localhost -t [app_name]``
+If you would like to only ensure that packages are present just run this command:
+``ansible-playbook playbook.yml -l localhoskt --extra-vars "pkg_state=present"``
 
-## Qemu/KVM
-- qemu
-- kvm
-- Virtual Machine Manager
+## Setup
 
-## i3
-- i3
-- regolth-i3
+Currently manual installation of the Ansible is required, but in the near future Bash script will be provided to automate this task.
+You can install Ansible using command ``pamac install ansible ansible-core`` or ``pacman -Syyu ansible ansible-core``.
 
-## Docker
-- Lazydocker
+## Usage
 
-## Git
-- Lazygit
+Provisioning of the clean workstation:
 
-# 3D printing
-- Cura
-- FreeCad?
-- Kcad?
-- Qcad?
+``ansible-playbook playbook.yml -l localhost``
 
-# Graphical
-- Gimp
-- Inkspace
-- Blender
+Update of the operating system:
 
-# Office
-- LibreOffice
+``ansible-playbook playbook.yml -l localhost -t osUpgrade``
+
+Update of the single package:
+
+``ansible-playbook playbook.yml -l localhost -t [app_name] --extra-vars "pkg_state=latest"``
+
+## Testing
+
+Currently tests environments aren't available, please folow roadmap.
+
+## Known Issues
+
+Not known.
+
+## Roadmap
+[ ] Create Docker image to provide ability to easly test CLI based applications 
+[ ] Create VirtualBox based Vagrant box
+[ ] Create libvirt/qemu based Vagrant box
+[ ] Create Vagrant file that will allow to easly test GUI based applications
+[ ] Create Bash script that will install Ansible as pre-requisite 
+[ ] Task to add SSH keys encrypted by Ansible Vault to the configuration - this will allow for automatic provisioning
+[ ] Ensure that user account creation will not override data in home directory
+[ ] Ensure that user is using Fish as defult shell
+[ ] Task for installation of the oh-my-fish
+[ ] Task for PIP packages installation
+[ ] Task for installation of the npm
+[ ] Install commitzen (https://github.com/commitizen/cz-cli)
+[ ] Task for installation of the nitrogen
+[ ] Task for installation of the Gnome
+[ ] Finish task with installation and configuration of i3
+[ ] Figure out how to install and configure DraculaPro color theme for Neovim
+    1. Vim theme need to be put as an private repository
+    2. Repository should be placed in the ``~/.local/share/nvim/site/pack/themes/start/dracula_pro`` directory
+    3. dos2unix needs to be installed
+    4. ``find . -type f -exec dos2unix {} \;`` command needs to be executed on dracula_pro directory
+[ ] Task for KiCAD installation
+[ ] Task for Bash configuration
+[ ] Task for Arduino IDE installation
+[ ] Ensure that Ansible is present to be able run playbook
+[ ] Task for Tfsec installation
+[ ] Task for Checkov installation
+[ ] Task to create folder directiry structure in home folder
+[ ] Task to install Kubespray
+[ ] Task to install Kind
+[ ] Task to install OBS
+[ ] Task to install Darktable
+[ ] Task to install Kdenlive
+[ ] Task to install Dust
+[ ] Task to install i3Blocks
+[ ] Extend that to Ubuntu based OS (provide Vagrant box and file; prepare Docker image)
+[ ] Task to install and comfigure TaskWarrior
+[ ] Balena-etcher install task does not work
+[ ] Add support for WSL/WSL2
+
+## License
+
+Under [MIT License](/LICENSE.md).
+
+## Credits
+
+Creating this Ansible playbook I was heavly inspired by:
+
+- [ThePrimeagen](https://github.com/ThePrimeagen) course [Developer Productivity](https://frontendmasters.com/courses/developer-productivity/) on [FrontendMasters](https://frontendmasters.com)
+- [TheAltF4](https://github.com/ALT-F4-LLC) [dotfiles](https://github.com/ALT-F4-LLC/dotfiles) repository and [YouTube video](https://www.youtube.com/watch?v=V_Cj_p6se3k)
+- [manjaro-playbook](https://github.com/PauloPortugal/manjaro-playbook/tree/main) by [PauloPortugal](https://github.com/PauloPortugal)

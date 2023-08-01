@@ -1,0 +1,18 @@
+---
+- name: Install Discord
+  become: true
+  ansible.builtin.package:
+    name: discord
+    state: "{{ pkg_state }}"
+  tags:
+    - discord
+    - communication
+
+- name: Install Signal
+  become: true
+  ansible.builtin.package:
+    name: signal-desktop
+    state: "{{ pkg_state }}"
+  tags:
+    - signal
+    - communication

@@ -1,0 +1,11 @@
+---
+- name: Install AWS cli
+  become: true
+  ansible.builtin.package:
+    name: aws-cli-v2
+    state: "{{ pkg_state }}"
+  tags:
+    - aws-cli
+    - aws
+    - cloud
+    - development

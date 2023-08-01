@@ -1,0 +1,20 @@
+---
+- name: Install pyenv
+  become: true
+  ansible.builtin.package:
+    name: pyenv
+    state: "{{ pkg_state }}"
+  tags:
+    - pyenv
+    - python
+    - development
+
+- name: Install pyenv-virtualenv
+  kewlfft.aur.aur:
+    name: pyenv-virtualenv
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - pyenv
+    - python
+    - development
