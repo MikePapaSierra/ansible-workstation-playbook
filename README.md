@@ -100,7 +100,7 @@ Not known.
 - [ ] Task to install Dust
 - [ ] Task to install i3Blocks
 - [ ] Extend that to Ubuntu based OS (provide Vagrant box and file; prepare Docker image)
-- [ ] Task to install and comfigure TaskWarrior
+- [X] Task to install and comfigure TaskWarrior
 - [ ] Balena-etcher install task does not work
 - [ ] Add support for WSL/WSL2
 

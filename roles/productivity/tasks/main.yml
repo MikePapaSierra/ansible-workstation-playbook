@@ -8,3 +8,45 @@
     - obsidian
     - gui
     - productivity
+
+- name: Install TaskWarrior
+  become: true
+  ansible.builtin.package:
+    name: task
+    state: "{{ pkg_state }}"
+  tags:
+    - taskwarrior
+    - cli
+    - productivity
+
+- name: Install TaskWarrior TUI
+  become: true
+  ansible.builtin.package:
+    name: taskwarrior-tui
+    state: "{{ pkg_state }}"
+  tags:
+    - taskwarrior-tui
+    - taskwarrior
+    - cli
+    - productivity
+
+- name: Install tasklib
+  become: true
+  ansible.builtin.package:
+    name: python-tasklib
+    state: "{{ pkg_state }}"
+  tags:
+    - python-tasklib
+    - taskwarrior
+    - productivity
+
+- name: Install pynvim
+  become: true
+  ansible.builtin.package:
+    name: python-pynvim
+    state: "{{ pkg_state }}"
+  tags:
+    - python-pynvim
+    - taskwarrior
+    - nvim
+    - productivity
