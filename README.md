@@ -71,6 +71,7 @@ Not known.
 - [ ] Create Vagrant file that will allow to easly test GUI based applications
 - [ ] Create Bash script that will install Ansible as pre-requisite 
 - [ ] Task to add SSH keys encrypted by Ansible Vault to the configuration - this will allow for automatic provisioning
+- [ ] Task to install VirtualBox kernel module in case when vm on Windows is used for tests or as a workstation
 - [ ] Ensure that user account creation will not override data in home directory
 - [ ] Ensure that user is using Fish as defult shell
 - [ ] Task for installation of the oh-my-fish
