@@ -1,0 +1,41 @@
+---
+- name: Install VirtualBox
+  become: true
+  ansible.builtin.package:
+    name:
+      - virtualbox
+      - virtualbox-host-dkms
+    state: "{{ pkg_state }}"
+  tags:
+    - virtualbox
+    - vm
+
+- name: Check kernel version
+  ansible.builtin.shell: 
+    cmd: uname -r | sed 's/\.//g' | sed -r 's/(.{2}).*/\1/'
+  register: kern_ver
+  tags:
+    - linux-headers
+    - virtualbox
+    - vm
+
+- name: Install kernel headers
+  become: true
+  ansible.builtin.package:
+    name:
+      - linux{{ kern_ver.stdout }}-headers
+    state: "{{ pkg_state }}"
+  tags:
+    - linux-headers
+    - virtualbox
+    - vm
+
+- name: Add user to the vboxuser group
+  become: true
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: vboxusers
+    append: true
+  tags:
+    - virtualbox
+    - vm
