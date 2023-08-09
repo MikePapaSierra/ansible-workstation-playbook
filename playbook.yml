@@ -11,6 +11,6 @@
     - {role: media, tags: [media]}
     - {role: productivity, tags: [productivity]}
     - {role: security, tags: [security]}
-    - {role: users, tags: [users]}
     - {role: virtualization, tags: [virtualization]}
+    - {role: users, tags: [users]}
 
