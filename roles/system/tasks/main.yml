@@ -120,6 +120,9 @@
 - name: Configure NTP
   ansible.builtin.import_tasks: ntp.yml
 
+- name: Configure SSH
+  ansible.builtin.import_tasks: ssh.yml
+
 - name: Install and configure Fish
   ansible.builtin.import_tasks: fish.yml
 
