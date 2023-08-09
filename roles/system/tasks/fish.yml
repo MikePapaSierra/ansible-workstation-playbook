@@ -28,7 +28,8 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:kamikazestar/fish.git
-    dest: /home/kamikazestar/.config/fish
+    dest: /home/{{ username }}/.config/fish
+    accept_hostkey: true
     single_branch: yes
     version: master
     update: no
