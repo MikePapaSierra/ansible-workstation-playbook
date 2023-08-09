@@ -29,6 +29,7 @@
     - system
 
 - name: Enable classic snap support
+  become: true
   ansible.builtin.file:
     src: /var/lib/snapd/snap
     dest: /snap
