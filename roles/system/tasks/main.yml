@@ -96,6 +96,16 @@
     - extraUtils
     - system
 
+- name: Install extra CLI utils from AUR
+  kewlfft.aur.aur:
+    name:
+     - wttr
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - extraUtils
+    - system
+
 - name: Install GUI utils
   become: true
   ansible.builtin.package:
