@@ -29,3 +29,38 @@
   tags:
     - tmux
     - system
+
+- name: Create plugins directory
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
+    state: directory
+    recurse: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  tags:
+    - tpm
+    - tmux
+    - system
+
+- name: Clone TPM repo
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:tmux-plugins/tpm
+    dest: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
+    single_branch: yes
+    version: master
+    update: no
+  tags:
+    - tpm
+    - tmux
+    - system
+
+- name: Install TPM
+  become: false
+  ansible.builtin.command: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm/bin/install_plugins"
+  tags:
+    - tpm
+    - tmux
+    - system
