@@ -1,0 +1,114 @@
+---
+- name: Install i3 window manager
+  become: true
+  ansible.builtin.package:
+    name:
+      - i3-wm
+    state: "{{ pkg_state }}"
+  tags:
+    - i3
+
+- name: Install i3lock-color
+  kewlfft.aur.aur:
+    name: i3lock-color
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - i3-lock
+    - i3
+
+- name: Install dracula-cursors
+  kewlfft.aur.aur:
+    name: dracula-cursors-git
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - dracula-cursors
+    - i3
+
+- name: Copy i3 dotfiles
+  become: false
+  ansible.builtin.git:
+    repo: git@github.com:kamikazestar/i3.git
+    dest: /home/kamikazestar/.config/i3
+    single_branch: yes
+    version: main
+    update: no
+  tags:
+    - i3
+
+- name: Install picom
+  become: true
+  ansible.builtin.package:
+    name:
+      - picom
+    state: "{{ pkg_state }}"
+  tags:
+    - picom
+    - i3
+    - system
+
+- name: Install arandr
+  become: true
+  ansible.builtin.package:
+    name:
+      - arandr
+    state: "{{ pkg_state }}"
+  tags:
+    - picom
+    - i3
+    - system
+
+- name: Install polybar
+  become: true
+  ansible.builtin.package:
+    name: polybar
+    state: "{{ pkg_state }}"
+  tags:
+    - polybar
+    - i3
+
+- name: Create config directory for polybar
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/polybar"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username  }}"
+    mode: '0755'
+  tags:
+    - polybar
+    - i3
+
+- name: Create polybar configuration
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/polybar/config.ini"
+    src: "polybar.ini.j2"
+  tags:
+    - polybar
+    - i3
+
+- name: Install polybar-now-playing
+  kewlfft.aur.aur:
+    name: polybar-now-playing-git
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - polybar-now-playing
+    - polybar
+    - i3
+
+- name: Install PulseAudio Volume Control
+  become: true
+  ansible.builtin.package:
+    name: pavucontrol
+    state: "{{ pkg_state }}"
+  tags:
+    - pavucontrol
+    - polybar
+    - i3
+
+- name: Install Rofi
+  ansible.builtin.import_tasks: rofi.yml
+
+- name: Install Nitrogen
+  ansible.builtin.import_tasks: nitrogen.yml

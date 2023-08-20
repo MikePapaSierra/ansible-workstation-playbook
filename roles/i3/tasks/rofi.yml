@@ -1,0 +1,93 @@
+---
+- name: Install rofi
+  become: true
+  ansible.builtin.package:
+    name: rofi
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi
+    - i3
+
+- name: Create config directoy
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/rofi"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  tags:
+    - rofi
+    - i3
+
+- name: Configure rofi
+  become: false
+  ansible.builtin.template:
+    src: config.rasi.j2
+    dest: "{{ ansible_user_dir }}/.config/rofi/config.rasi"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+  tags:
+    - rofi
+    - i3
+
+- name: Install rofi-calc
+  become: true
+  ansible.builtin.package:
+    name: rofi-calc
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-calc
+    - rofi
+    - i3
+
+- name: Install rofi-emoji
+  become: true
+  ansible.builtin.package:
+    name: rofi-emoji
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-emoji
+    - rofi
+    - i3
+
+- name: Install rofi-power-menu
+  kewlfft.aur.aur:
+    name: rofi-power-menu
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-power-menu
+    - rofi
+    - i3
+
+- name: Install rofi-wifi-menu
+  kewlfft.aur.aur:
+    name: rofi-wifi-menu-git
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-wifi-menu
+    - rofi
+    - i3
+
+- name: Install rofi-bluetooth-menu
+  kewlfft.aur.aur:
+    name: rofi-bluetooth-git
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-bluetooth-menu
+    - rofi
+    - i3
+
+- name: Install rofi-spotify
+  kewlfft.aur.aur:
+    name: rofi-spotify-git
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - rofi-spotify-menu
+    - rofi
+    - i3

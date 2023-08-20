@@ -1,0 +1,328 @@
+3;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #80282a36
+background-alt = #80282A36
+foreground = #f8f8f2
+primary = #bd93f9
+secondary = #8be9fd
+alert = #ff5555
+disabled = #44475a
+
+[bar/example]
+width = 100%
+heigh = 14pt
+radius = 0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2pt
+
+border-size = 0pt
+border-color = ${colors.background}
+
+padding-left = 1
+padding-right = 1
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.primary}
+
+font-0 = UbuntuMono Nerd Font;1
+
+modules-left = i3
+modules-right = weather now-playing wireless-network wired-network fs-root fs-home memory cpu network battery pulseaudio bluetooth date
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+tray-position = right
+tray-padding = 1
+; wm-restack = generic
+; wm-restack = bspwm
+; wm-restack = i3
+
+; override-redirect = true
+
+[module/i3]
+type = internal/i3
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; Show urgent workspaces regardless of whether the workspace is actually hidden
+; by pin-workspaces.
+;
+; Default: false
+; New in version 3.6.0
+show-urgent = true
+
+; This will split the workspace name on ':'
+; Default: false
+strip-wsnumbers = true
+
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
+index-sort = true
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = false
+
+; Wrap around when reaching the first/last workspace
+; Default: true
+wrapping-scroll = false
+
+; Set the scroll cycle direction
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-default = 
+
+; Available tags:
+;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
+;   <label-mode> (default)
+format = <label-state> <label-mode>
+
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-background = ${colors.alert}
+
+label-focused = %icon%
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 1
+
+label-unfocused = %icon%
+label-unfocused-padding = 1
+
+label-visible = %icon%
+label-visible-underline = ${colors.secondary}
+label-visible-padding = 1
+
+label-urgent = %icon%
+label-urgent-foreground = ${colors.foreground}
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+[module/weather]
+type = custom/script
+exec = $HOME/.config/polybar/weather-plugin.sh
+tail = false
+interval = 960
+
+[module/filesystem]
+type = internal/fs
+fixed-values = true
+interval = 25
+
+[module/fs-root]
+inherit = module/filesystem
+mount-0 = /
+
+label-mounted =   %free%
+
+[module/fs-home]
+inherit = module/filesystem
+mount-0 = /home
+
+label-mounted = 󱂵  %free%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume-prefix-foreground = ${colors.primary}
+format-volume = <ramp-volume> <label-volume>
+
+label-volume = %percentage%%
+
+label-muted-foreground = ${colors.disabled}
+
+label-muted = 
+
+interval = 5
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+click-right = pavucontrol
+
+[module/now-playing]
+type = custom/script
+tail = true
+exec = /usr/bin/polybar-now-playing
+click-right = "kill -USR1 $(pgrep --oldest --parent %pid%)"
+
+message_display_len = 20
+update_delay = 0.3
+control_chars = ['','','','']
+
+metadata_fields = ["xesam:title", "xesam:artist"]
+metadata_separator = "-"
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "󰍛 "
+format-prefix-foreground = ${colors.foreground}
+label = %percentage_used:2%%
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "󰻠 "
+format-prefix-foreground = ${colors.foreground}
+label = %percentage:2%%
+
+[module/wired-network]
+type = internal/network
+interface = enp4s0
+interface-type = wired
+format-connected = 󰈁 <label-connected>
+label-connected =   %downspeed%  %upspeed%
+label-connected-foreground = ${colors.secondary}
+format-disconnected = 󰈂 <label-disconnected>
+label-disconnected = %ifname%
+label-disconnected-foreground = ${colors.alert}
+
+format-packetloss = <animation-packetloss>
+animation-packetloss-0 = 󰈀 
+animation-packetloss-0-foreground = ${colors.alert}
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${colors.disabled}
+animation-packetloss-framerate = 500
+
+[module/wireless-netowrk]
+type = internal/network
+interface = enp5s0
+interface-type = wireless
+format-connected = 󰖩  <label-connected> <ramp-signal>
+label-connected = %essid%  %downspeed%  %upspeed%
+label-connected-foreground = ${colors.secondary}
+format-disconnected = 󱚼  <label-disconnected>
+label-disconnected = %essid%
+label-disconnected-foreground = ${colors.alert}
+
+format-packetloss = <animation-packetloss>
+animation-packetloss-0 = 󱚵
+animation-packetloss-0-foreground = ${colors.alert}
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${colors.disabled}
+animation-packetloss-framerate = 500
+
+ramp-signal-0 = 󰢿 
+ramp-signal-1 = 󰢼 
+ramp-signal-2 = 󰢽 
+ramp-signal-3 = 󰢾 
+
+[module/bluetooth]
+type = custom/script
+exec = rofi-bluetooth --status
+interval = 1
+click-left = rofi-bluetooth &
+
+[module/battery]
+type = internal/battery
+
+full-at = 100
+low-at = 10
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
+battery = BAT0
+adapter = ADP1
+
+poll-interval = 5
+
+time-format = %H:%M
+
+format-charging = <ramp-capacity>  <label-charging>
+
+format-discharging = <ramp-capacity>  <label-discharging>
+
+format-low = <label-low> <animation-low>
+
+label-charging =  %time% %percentage%%
+
+label-discharging = %percentage%%
+
+label-low = %time% %percentage%%
+
+; Only applies if <ramp-capacity> is used
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-low-0 = 
+animation-low-1 = 
+animation-low-framerate = 500
+
+[module/date]
+type = internal/date
+interval = 1
+
+date = %d/%m/%Y %H:%M:%S
+
+label = %date%
+label-foreground = ${colors.foreground}
+label-font = 1
+format =  <label>
+
+[module/pomodoro]
+type = custom/script
+click-left = i3-gnome-pomodoro toggle
+click-middle = gnome-pomodoro
+click-right = i3-gnome-pomodoro start_stop
+exec = i3-gnome-pomodoro status --always --icon-text " "
+interval = 1
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+
+; vim:ft=dosini

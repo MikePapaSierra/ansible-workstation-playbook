@@ -12,5 +12,6 @@
     - {role: productivity, tags: [productivity]}
     - {role: security, tags: [security]}
     - {role: virtualization, tags: [virtualization]}
+    - {role: i3, tags: [i3]}
     - {role: users, tags: [users]}
 
