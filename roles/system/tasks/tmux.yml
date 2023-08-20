@@ -12,7 +12,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:kamikazestar/tmux.git
-    dest: /home/kamikazestar/.config/tmux
+    dest: "{{ ansible_user_dir }}/.config/tmux"
     single_branch: yes
     version: master
     update: no
@@ -23,8 +23,8 @@
 - name: Create symlink to configuration file
   become: false
   ansible.builtin.file:
-    src: /home/kamikazestar/.config/tmux/tmux.conf
-    dest: /home/kamikazestar/.tmux.conf
+    src: "{{ ansible_user_dir }}/.config/tmux/tmux.conf"
+    dest: "{{ ansible_user_dir }}/.tmux.conf"
     state: link
   tags:
     - tmux
