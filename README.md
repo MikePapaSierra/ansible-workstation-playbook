@@ -64,46 +64,49 @@ Currently tests environments aren't available, please folow roadmap.
 
 Not known.
 
-## Roadmap
-- [ ] Create Docker image to provide ability to easly test CLI based applications 
-- [ ] Create VirtualBox based Vagrant box
-- [ ] Create libvirt/qemu based Vagrant box
-- [ ] Create Vagrant file that will allow to easly test GUI based applications
-- [ ] Create Bash script that will install Ansible as pre-requisite 
-- [ ] Task to add SSH keys encrypted by Ansible Vault to the configuration - this will allow for automatic provisioning
-- [ ] Task to install VirtualBox kernel module in case when vm on Windows is used for tests or as a workstation
-- [ ] Ensure that user account creation will not override data in home directory
-- [ ] Ensure that user is using Fish as defult shell
-- [ ] Task for installation of the oh-my-fish
-- [ ] Task for PIP packages installation
-- [ ] Task for installation of the npm
-- [ ] Install commitzen (https://github.com/commitizen/cz-cli)
-- [ ] Task for installation of the nitrogen
-- [ ] Task for installation of the Gnome
-- [ ] Finish task with installation and configuration of i3
-- [ ] Figure out how to install and configure DraculaPro color theme for Neovim
+## TODO
+### Pre-requisits
+- Bash script that will install Ansible as pre-requisite
+- Ensure that Ansible is present to be able run playbook
+
+### Testing
+- Docker image to test CLI based softwar
+- VirtualBox based Vagrant box
+- Libvirt based Vagrant box
+
+### Shell/CLI
+- Oh-my-fish task
+- Bash configuration task
+- Figure out how to install and configure DraculaPro color theme for Neovim
     1. Vim theme need to be put as an private repository
     2. Repository should be placed in the ``~/.local/share/nvim/site/pack/themes/start/dracula_pro`` directory
     3. dos2unix needs to be installed
     4. ``find . -type f -exec dos2unix {} \;`` command needs to be executed on dracula_pro directory
-- [ ] Task for KiCAD installation
-- [ ] Task for Bash configuration
-- [ ] Task for Arduino IDE installation
-- [ ] Ensure that Ansible is present to be able run playbook
-- [ ] Task for Tfsec installation
-- [ ] Task for Checkov installation
-- [ ] Task to create folder directiry structure in home folder
-- [ ] Task to install Kubespray
-- [ ] Task to install Kind
-- [ ] Task to install OBS
-- [ ] Task to install Darktable
-- [ ] Task to install Kdenlive
-- [ ] Task to install Dust
-- [ ] Task to install i3Blocks
-- [ ] Extend that to Ubuntu based OS (provide Vagrant box and file; prepare Docker image)
-- [X] Task to install and comfigure TaskWarrior
-- [ ] Balena-etcher install task does not work
-- [ ] Add support for WSL/WSL2
+- Commitzen (https://github.com/commitizen/cz-cli) task
+- Lazygit configuration task
+
+### User
+- Ensure that user account creation will not override data in home directory
+- Ensure that user is using Fish as defult shell
+- Create home folder structure
+
+### i3
+- Add OpenWeather API key encrypted by Ansible vault
+- Dunst installation and configuration task
+
+### Cloud
+- Tfsec task
+- Checkov task
+
+### Virtualization/containarization
+- Task to install VirtualBox kernel module in case when vm on Windows is used for tests or as a workstation
+- Task to install Kubespray
+- Task to install Kind
+
+### Other
+- Belena-etcher task
+- Support for WSL/WSL
+- Extend that to Ubuntu based OS
 
 ## License
 
