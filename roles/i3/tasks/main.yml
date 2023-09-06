@@ -125,6 +125,16 @@
     - dunst
     - i3
 
+- name: Install Dmenu
+  become: true
+  ansible.builtin.package:
+    name: dmenu
+    state: "{{ pkg_state }}"
+  tags:
+    - dmenu
+    - polybar
+    - i3
+
 - name: Install Rofi
   ansible.builtin.import_tasks: rofi.yml
 
