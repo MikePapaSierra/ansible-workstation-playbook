@@ -107,6 +107,16 @@
     - polybar
     - i3
 
+- name: Install pulseaudio-control
+  kewlfft.aur.aur:
+    name: pulseaudio-control
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - pulseaudio-control
+    - polybar
+    - i3
+
 - name: Install Dunst
   become: true
   ansible.builtin.package:

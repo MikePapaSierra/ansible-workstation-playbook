@@ -1,4 +1,4 @@
-3;==========================================================
+;==========================================================
 ;
 ;
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
@@ -17,7 +17,7 @@
 ;==========================================================
 
 [colors]
-background = #80282a36
+background = #80282a36 
 background-alt = #80282A36
 foreground = #f8f8f2
 primary = #bd93f9
@@ -48,8 +48,8 @@ separator-foreground = ${colors.primary}
 
 font-0 = UbuntuMono Nerd Font;1
 
-modules-left = i3
-modules-right = weather now-playing wireless-network wired-network fs-root fs-home memory cpu network battery pulseaudio bluetooth date
+modules-left = i3 
+modules-right = weather now-playing wireless-network wired-network fs-root fs-home memory cpu network battery pulseaudio-control-output bluetooth rofi-usb-mount date calendar
 cursor-click = pointer
 cursor-scroll = ns-resize
 
@@ -74,7 +74,7 @@ type = internal/i3
 ; Default: false
 pin-workspaces = true
 
-; Show urgent workspaces regardless of whether the workspace is actually hidden
+; Show urgent workspaces regardless of whether the workspace is actually hidden 
 ; by pin-workspaces.
 ;
 ; Default: false
@@ -102,13 +102,13 @@ enable-scroll = false
 ; Default: true
 wrapping-scroll = false
 
-; Set the scroll cycle direction
+; Set the scroll cycle direction 
 ; Default: true
 reverse-scroll = false
 
-; Use fuzzy (partial) matching on labels when assigning
+; Use fuzzy (partial) matching on labels when assigning 
 ; icons to workspaces
-; Example: code;♚ will apply the icon to all workspaces
+; Example: code;♚ will apply the icon to all workspaces 
 ; containing 'code' in the label
 ; Default: false
 fuzzy-match = true
@@ -180,7 +180,7 @@ label-volume = %percentage%%
 
 label-muted-foreground = ${colors.disabled}
 
-label-muted = 
+label-muted =  	
 
 interval = 5
 
@@ -189,6 +189,39 @@ ramp-volume-1 = 
 ramp-volume-2 = 
 
 click-right = pavucontrol
+
+[module/pulseaudio-control-output]
+type = custom/script
+tail = true
+format-underline = ${colors.cyan}
+label-padding = 2
+label-foreground = ${colors.foreground}
+
+# Icons mixed from Font Awesome 5 and Material Icons
+# You can copy-paste your options for each possible action, which is more
+# trouble-free but repetitive, or apply only the relevant ones (for example
+# --node-blacklist is only needed for next-node).
+exec = pulseaudio-control --icons-volume " , " --icon-muted " " --node-nicknames-from "device.description" --node-nickname "alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers" --node-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" listen
+click-right = exec pavucontrol &
+click-left = pulseaudio-control togmute
+click-middle = pulseaudio-control --node-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-node
+scroll-up = pulseaudio-control --volume-max 130 up
+scroll-down = pulseaudio-control --volume-max 130 down
+
+[module/pulseaudio-control-input]
+type = custom/script
+tail = true
+format-underline = ${colors.cyan}
+label-padding = 2
+label-foreground = ${colors.foreground}
+
+# Use --node-blacklist to remove the unwanted PulseAudio .monitor that are child of sinks
+exec = pulseaudio-control  --node-type input --icons-volume "" --icon-muted "" --node-nickname "alsa_output.pci-0000_0c_00.3.analog-stereo:  Webcam" --node-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" --node-blacklist "*.monitor" listen
+click-right = exec pavucontrol &
+click-left = pulseaudio-control --node-type input togmute
+click-middle = pulseaudio-control --node-type input next-node
+scroll-up = pulseaudio-control --node-type input --volume-max 130 up
+scroll-down = pulseaudio-control --node-type input --volume-max 130 down
 
 [module/now-playing]
 type = custom/script
@@ -226,10 +259,10 @@ label-connected =   %downspeed%  %upspeed%
 label-connected-foreground = ${colors.secondary}
 format-disconnected = 󰈂 <label-disconnected>
 label-disconnected = %ifname%
-label-disconnected-foreground = ${colors.alert}
+label-disconnected-foreground = ${colors.alert} 
 
-format-packetloss = <animation-packetloss>
-animation-packetloss-0 = 󰈀 
+format-packetloss = <animation-packetloss> 
+animation-packetloss-0 = 󰈀  
 animation-packetloss-0-foreground = ${colors.alert}
 animation-packetloss-1 = 
 animation-packetloss-1-foreground = ${colors.disabled}
@@ -246,8 +279,8 @@ format-disconnected = 󱚼  <label-disconnected>
 label-disconnected = %essid%
 label-disconnected-foreground = ${colors.alert}
 
-format-packetloss = <animation-packetloss>
-animation-packetloss-0 = 󱚵
+format-packetloss = <animation-packetloss> 
+animation-packetloss-0 = 󱚵 
 animation-packetloss-0-foreground = ${colors.alert}
 animation-packetloss-1 = 
 animation-packetloss-1-foreground = ${colors.disabled}
@@ -306,12 +339,28 @@ animation-low-framerate = 500
 type = internal/date
 interval = 1
 
-date = %d/%m/%Y %H:%M:%S
+date = %H:%M:%S
 
 label = %date%
 label-foreground = ${colors.foreground}
 label-font = 1
 format =  <label>
+
+[module/calendar]
+type = custom/script
+label = "󰃭"
+exec = echo Calendar
+click-left = ~/.config/polybar/calendar.sh curr
+scroll-up = ~/.config/polybar/calendar.sh next
+scroll-down = ~/.config/polybar/calendar.sh prev
+
+[module/rofi-usb-mount]
+type = custom/script
+exec = ~/.config/polybar/rofi-usb-mount.sh --check
+tail = true
+click-left = ~/.config/polybar/rofi-usb-mount.sh --mount
+click-right = ~/.config/polybar/rofi-usb-mount.sh --umount
+click-middle = ~/.config/polybar/rofi-usb-mount.sh --umount-all
 
 [module/pomodoro]
 type = custom/script
