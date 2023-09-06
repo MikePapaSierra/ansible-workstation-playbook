@@ -107,6 +107,24 @@
     - polybar
     - i3
 
+- name: Install Dunst
+  become: true
+  ansible.builtin.package:
+    name: dunst
+    state: "{{ pkg_state }}"
+  tags:
+    - dunst
+    - polybar
+    - i3
+
+- name: Create Dunst configuration
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.config/dunst/dunstrc"
+    src: "dunstrc.j2"
+  tags:
+    - dunst
+    - i3
+
 - name: Install Rofi
   ansible.builtin.import_tasks: rofi.yml
 
