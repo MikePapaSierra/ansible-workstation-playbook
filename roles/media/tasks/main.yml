@@ -8,3 +8,23 @@
     - spotify
     - gui
     - media
+
+- name: Install Spotifyd
+  become: true
+  pacman:
+    name: spotifyd
+    state: "{{ pkg_state }}"
+  tags:
+    - spotifyd
+    - spotify
+    - media
+
+- name: Install Spotify TUI
+  kewlfft.aur.aur:
+    name: spotify-tui
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - spotify
+    - spotify-tui
+    - media
