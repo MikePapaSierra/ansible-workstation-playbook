@@ -4,6 +4,7 @@
   ansible.builtin.package:
     name:
       - jq
+      - yq
     state: "{{ pkg_state }}"
   tags:
     - dev-utils
