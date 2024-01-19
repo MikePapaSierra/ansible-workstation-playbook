@@ -69,3 +69,13 @@
     - k8s
     - development
 
+- name: Install kind
+  kewlfft.aur.aur:
+    name: kind
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - kind
+    - k8s
+    - development
+
