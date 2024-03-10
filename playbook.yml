@@ -14,4 +14,5 @@
     - {role: virtualization, tags: [virtualization]}
     - {role: i3, tags: [i3]}
     - {role: users, tags: [users]}
+    - {role: entertainment, tags: [entertainment]} 
 

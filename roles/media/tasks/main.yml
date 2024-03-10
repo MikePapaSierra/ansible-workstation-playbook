@@ -28,3 +28,15 @@
     - spotify
     - spotify-tui
     - media
+
+# TODO: After installation only blank window is displayed
+# This could be potential issue with Nvidia Opencl driver or jdk version.
+- name: Install DaVinci Resolve
+  kewlfft.aur.aur:
+    name: davinci-resolve
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - davinci-resolve
+    - gui
+    - media

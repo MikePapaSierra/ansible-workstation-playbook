@@ -82,7 +82,6 @@ Not known.
     2. Repository should be placed in the ``~/.local/share/nvim/site/pack/themes/start/dracula_pro`` directory
     3. dos2unix needs to be installed
     4. ``find . -type f -exec dos2unix {} \;`` command needs to be executed on dracula_pro directory
-- Commitzen (https://github.com/commitizen/cz-cli) task
 - Lazygit configuration task
 
 ### User
@@ -101,7 +100,6 @@ Not known.
 ### Virtualization/containarization
 - Task to install VirtualBox kernel module in case when vm on Windows is used for tests or as a workstation
 - Task to install Kubespray
-- Task to install Kind
 
 ### Other
 - Belena-etcher task

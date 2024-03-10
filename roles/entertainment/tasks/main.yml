@@ -1,0 +1,35 @@
+---
+- name: Install Itch
+  kewlfft.aur.aur:
+    name:
+      - itch-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - itch
+    - games
+    - entertainment
+   
+# TODO: Install dependencies and optional packages
+- name: Install Steam
+  become: true
+  ansible.builtin.package:
+    name:
+      - steam
+    state: "{{ pkg_state }}"
+  tags:
+    - steam
+    - games
+    - entertainment
+
+- name: Install prerequisites for Terminal Control 2
+  become: true
+  ansible.builtin.package:
+    name:
+      - espeak-ng
+      - speech-dispatcher 
+    state: "{{ pkg_state }}"
+  tags:
+    - terminalcontrol2
+    - games
+    - entertainment

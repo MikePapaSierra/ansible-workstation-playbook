@@ -8,6 +8,18 @@
     - pre
     - osUpgrade
     - system
+  when: ansible_lsb.id == "ManjaroLinux"
+
+- name: Update cache and upgrade
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+  tags:
+    - pre
+    - osUpgrade
+    - system
+  when: ansible_lsb.id == "Ubuntu"
 
 - name: Configure sudo
   become: true
@@ -21,7 +33,7 @@
     - system
 
 - name: Create the `aur_builder` user
-  become: yes
+  become: true
   ansible.builtin.user:
     name: aur_builder
     create_home: yes
@@ -29,9 +41,10 @@
   tags:
     - aur
     - system
+  when: ansible_lsb.id == "ManjaroLinux"
 
 - name: Allow the `aur_builder` user to run `sudo pacman` without a password
-  become: yes
+  become: true
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
@@ -41,6 +54,7 @@
   tags:
     - aur
     - system
+  when: ansible_lsb.id == "ManjaroLinux"
 
 - name: Install yay
   become: true
@@ -52,6 +66,7 @@
     - yay
     - aur
     - system
+  when: ansible_lsb.id == "ManjaroLinux"
 
 - name: Install CLI utils
   become: true
@@ -70,6 +85,7 @@
      - pwgen
      - ntp
      - tree
+     - xclip
      - wget
     state: "{{ pkg_state }}"
   tags:
@@ -100,11 +116,14 @@
   kewlfft.aur.aur:
     name:
      - wttr
+     - exercism-bin
+     - teamviewer
     use: yay
     state: "{{ pkg_state }}"
   tags:
     - extraUtils
     - system
+  when: ansible_lsb.id == "ManjaroLinux"
 
 - name: Install GUI utils
   become: true
@@ -126,6 +145,15 @@
 #  tags:
 #    - aurGuiUtils
 #    - system
+
+- name: Install tldr
+  become: true
+  ansible.builtin.package:
+    name: tldr
+    state: "{{ pkg_state }}"
+  tags:
+    - tldr
+    - system
  
 - name: Configure NTP
   ansible.builtin.import_tasks: ntp.yml
