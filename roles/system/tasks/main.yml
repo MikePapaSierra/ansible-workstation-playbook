@@ -58,7 +58,8 @@
   ansible.builtin.package:
     name:
      - base-devel
-     - binutils 
+     - dkms
+     - binutils
      - gcc
      - lib32-glibc
      - make
