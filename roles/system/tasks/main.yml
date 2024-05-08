@@ -110,7 +110,9 @@
 - name: Install GUI utils
   become: true
   ansible.builtin.package:
-    name: solaar
+    name:
+      - solaar
+      - flameshot
     state: "{{ pkg_state }}"
   tags:
     - guiUtils
