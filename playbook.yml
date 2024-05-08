@@ -4,6 +4,7 @@
   roles:
     - {role: system, tags: [system]}
     - {role: browsers, tags: [browsers]}
+    - {role: entertainment, tags: [entertainment]}
     - {role: communication, tags: [communication]}
     - {role: development, tags: [development]}
     - {role: diy, tags: [diy]}

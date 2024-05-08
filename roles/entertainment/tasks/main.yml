@@ -1,0 +1,35 @@
+---
+- name: Install Steam package
+  become: true
+  ansible.builtin.package:
+    name: steam
+    state: "{{ pkg_state }}"
+  tags:
+    - entertainment
+    - gaming
+    - steam
+
+- name: Install Itch package
+  become: true
+  ansible.builtin.package:
+    name: itch-bin
+    state: "{{ pkg_state }}"
+  tags:
+    - entertainment
+    - gaming
+    - itch
+
+- name: Install accessability packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - espeak-ng
+      - speech-dispatcher
+    state: "{{ pkg_state }}"
+  tags:
+    - accessability
+    - speech
+    - entertainment
+    - gaming
+    - itch
+    - terminal-control
