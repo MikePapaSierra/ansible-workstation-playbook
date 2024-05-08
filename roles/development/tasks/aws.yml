@@ -9,3 +9,14 @@
     - aws
     - cloud
     - development
+
+- name: Install AWS CDK
+  kewlfft.aur.aur:
+    name: aws-cdk
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - aws-cdk
+    - aws
+    - cloud
+    - development
