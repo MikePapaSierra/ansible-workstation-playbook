@@ -1,0 +1,11 @@
+---
+- name: Install Exercism CLI
+  kewlfft.aur.aur:
+    name:
+     - exercism
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - utils
+    - programming
+    - exercism
