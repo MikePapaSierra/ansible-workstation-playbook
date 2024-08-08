@@ -66,6 +66,7 @@
      - openssl
      - keychain
      - htop
+     - btop
      - fzf
      - ripgrep
      - pwgen
