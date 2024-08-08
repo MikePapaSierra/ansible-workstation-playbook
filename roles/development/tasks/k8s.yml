@@ -79,3 +79,12 @@
     - k8s
     - development
 
+- name: Install k3d
+  kewlfft.aur.aur:
+    name: rancher-k3d-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - k3d
+    - k8s
+    - development
