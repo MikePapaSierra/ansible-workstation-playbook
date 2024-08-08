@@ -30,6 +30,17 @@
     - git
     - system
 
+- name: Install Delta  as an pager for Git
+  become: true
+  ansible.builtin.package:
+    name:
+      - git-delta
+    state: "{{ pkg_state }}"
+  tags:
+    - delta
+    - git
+    - system
+
 - name: Install Lazygit
   become: true
   pacman:
