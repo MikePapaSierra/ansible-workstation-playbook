@@ -118,18 +118,6 @@
     - guiUtils
     - system
 
-# This is taking way too long
-# Bassically it hangs on this step
-# It seems that make is used instead yay
-#- name: Install GUI utils from AUR
-#  kewlfft.aur.aur:
-#    name: balena-etcher
-#    use: yay
-#    state: "{{ pkg_state }}"
-#  tags:
-#    - aurGuiUtils
-#    - system
- 
 - name: Configure NTP
   ansible.builtin.import_tasks: ntp.yml
 
