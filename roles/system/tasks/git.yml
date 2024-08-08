@@ -1,7 +1,7 @@
 ---
 - name: Install Git
   become: true
-  pacman:
+  ansible.builtin.package:
     name: git
     state: "{{ pkg_state }}"
   tags:
