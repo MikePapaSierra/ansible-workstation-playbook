@@ -10,9 +10,10 @@
     - steam
 
 - name: Install Itch package
-  become: true
-  ansible.builtin.package:
-    name: itch-bin
+  kewlfft.aur.aur:
+    name:
+     - itch-setup-bin
+    use: yay
     state: "{{ pkg_state }}"
   tags:
     - entertainment
