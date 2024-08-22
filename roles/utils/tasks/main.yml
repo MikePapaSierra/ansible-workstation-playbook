@@ -9,3 +9,14 @@
     - utils
     - programming
     - exercism
+
+- name: Install gqrx
+  kewlfft.aur.aur:
+    name:
+     - gqrx
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - utils
+    - sdr
+    - gqrx
