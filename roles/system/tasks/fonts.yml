@@ -26,6 +26,18 @@
     - gui
     - system
 
+- name: Install Google Noto emoji fonts
+  become: true
+  ansible.builtin.package:
+    name:
+      - noto-fonts-emoji
+    state: "{{ pkg_state }}"
+  tags:
+    - notoEmoji
+    - fonts
+    - gui
+    - system
+
 - name: Install IntelOne Mono font
   kewlfft.aur.aur:
     name:
