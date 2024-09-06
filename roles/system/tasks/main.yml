@@ -93,6 +93,7 @@
      - duf
      - xh
      - bat
+     - yazi
     state: "{{ pkg_state }}"
   tags:
     - extraUtils
