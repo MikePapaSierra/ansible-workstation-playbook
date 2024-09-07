@@ -1,8 +1,8 @@
 ---
-- name: Install AWS cli
-  become: true
-  ansible.builtin.package:
+- name: Install AWS CLI v2
+  kewlfft.aur.aur:
     name: aws-cli-v2
+    use: yay
     state: "{{ pkg_state }}"
   tags:
     - aws-cli
