@@ -73,6 +73,7 @@
      - ntp
      - tree
      - wget
+     - minicom
     state: "{{ pkg_state }}"
   tags:
     - utils
