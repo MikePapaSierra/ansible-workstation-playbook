@@ -9,6 +9,16 @@
     - python
     - development
 
+- name: Install debugpy
+  become: true
+  ansible.builtin.package:
+    name: python-debugpy
+    state: "{{ pkg_state }}"
+  tags:
+    - debugpy
+    - python
+    - development
+
 - name: Install pyenv-virtualenv
   kewlfft.aur.aur:
     name: pyenv-virtualenv
