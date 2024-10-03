@@ -7,7 +7,7 @@
       - yq
     state: "{{ pkg_state }}"
   tags:
-    - dev-utils
+    - devUtils
     - development
 
 - name: Install developer utils from AUR
@@ -17,7 +17,7 @@
     use: yay
     state: "{{ pkg_state }}"
   tags:
-    - dev-utils-aur
+    - devUtils
     - development
 
 - name: Install and configure Go
