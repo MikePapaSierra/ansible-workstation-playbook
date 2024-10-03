@@ -76,7 +76,7 @@
      - minicom
     state: "{{ pkg_state }}"
   tags:
-    - utils
+    - sysUtils
     - system
 
 - name: Install extra CLI utils
@@ -97,7 +97,7 @@
      - yazi
     state: "{{ pkg_state }}"
   tags:
-    - extraUtils
+    - extraSysUtils
     - system
 
 - name: Install extra CLI utils from AUR
@@ -107,7 +107,7 @@
     use: yay
     state: "{{ pkg_state }}"
   tags:
-    - extraUtils
+    - extraSysUtils
     - system
 
 - name: Install GUI utils
