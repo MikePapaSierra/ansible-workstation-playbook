@@ -18,3 +18,14 @@
     - firefox
     - browsers
     - gui
+
+- name: Install Zen browser
+  kewlfft.aur.aur:
+    name:
+     - zen-browser-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - zen-browser
+    - browsers
+    - gui
