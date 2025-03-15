@@ -8,6 +8,8 @@
     - entertainment
     - gaming
     - steam
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
 
 - name: Install Itch package
   kewlfft.aur.aur:

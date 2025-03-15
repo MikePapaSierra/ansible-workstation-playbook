@@ -20,3 +20,5 @@
     - utils
     - sdr
     - gqrx
+  when:
+    - ansible_facts['form_factor'] == "Desktop"

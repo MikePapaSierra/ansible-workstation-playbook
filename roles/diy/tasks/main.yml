@@ -7,6 +7,8 @@
   tags:
     - freecad
     - diy
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
 
 - name: Install Cura
   kewlfft.aur.aur:
@@ -17,3 +19,5 @@
     - cura
     - gui
     - diy
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
