@@ -73,6 +73,7 @@
      - tree
      - wget
      - minicom
+     - wavemon
     state: "{{ pkg_state }}"
   tags:
     - sysUtils
