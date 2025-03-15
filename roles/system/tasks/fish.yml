@@ -56,6 +56,16 @@
     - fish
     - system
 
+- name: Install Eza
+  become: true
+  pacman:
+    name: eza
+    state: "{{ pkg_state }}"
+  tags:
+    - eza
+    - fish
+    - system
+
 - name: Install Figlet
   become: true
   pacman:
