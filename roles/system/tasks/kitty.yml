@@ -13,7 +13,7 @@
 - name: Get Kitty dotfiles
   become: false
   ansible.builtin.git:
-    repo: git@github.com:kamikazestar/kitty.git
+    repo: git@github.com:MikePapaSierra/kitty.git
     dest: /home/{{ username }}/.config/kitty
     single_branch: yes
     version: main

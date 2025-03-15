@@ -11,7 +11,7 @@
 - name: Get Git dotfiles
   become: false
   ansible.builtin.git:
-    repo: git@github.com:kamikazestar/git.git
+    repo: git@github.com:MikePapaSierra/git.git
     dest: /home/{{ username }}/.config/git
     single_branch: yes
     version: main
@@ -54,7 +54,7 @@
 - name: Get Lazygit config
   become: false
   ansible.builtin.git:
-    repo: git@github.com:kamikazestar/lazygit.git
+    repo: git@github.com:MikePapaSierra/lazygit.git
     dest: /home/{{ username }}/.config/lazygit
     single_branch: true
     version: main

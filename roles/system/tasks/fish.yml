@@ -27,7 +27,7 @@
 - name: Get Fish dotfiles
   become: false
   ansible.builtin.git:
-    repo: git@github.com:kamikazestar/fish.git
+    repo: git@github.com:MikePapaSierra/fish.git
     dest: /home/{{ username }}/.config/fish
     accept_hostkey: true
     single_branch: yes

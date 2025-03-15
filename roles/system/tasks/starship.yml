@@ -11,8 +11,8 @@
 - name: Get Starship dotfiles
   become: false
   ansible.builtin.git:
-    repo: git@github.com:kamikazestar/starship.git
     dest: /home/kamikazestar/.config/starship
+    repo: git@github.com:MikePapaSierra/starship.git
     single_branch: yes
     version: main 
     update: no
