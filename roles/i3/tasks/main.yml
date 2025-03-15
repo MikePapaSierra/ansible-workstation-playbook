@@ -20,8 +20,8 @@
 - name: Copy i3 dotfiles
   become: false
   ansible.builtin.git:
-    dest: /home/kamikazestar/.config/i3
     repo: git@github.com:MikePapaSierra/i3.git
+    dest: /home/{{ username }}/.config/i3
     single_branch: yes
     version: main
     update: no

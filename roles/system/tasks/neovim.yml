@@ -22,8 +22,8 @@
 - name: Get Neovim dotfiles
   become: false
   ansible.builtin.git:
-    dest: /home/kamikazestar/.config/nvim
     repo: git@github.com:MikePapaSierra/nvim.git
+    dest: /home/{{ username }}/.config/nvim
     single_branch: yes
     version: master
     update: no

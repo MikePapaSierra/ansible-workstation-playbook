@@ -90,7 +90,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:xero/figlet-fonts.git
-    dest: /home/kamikazestar/.local/share/fonts/figlet-fonts
+    dest: /home/{{ username }}/.local/share/fonts/figlet-fonts
     single_branch: yes
     version: master
     update: no
