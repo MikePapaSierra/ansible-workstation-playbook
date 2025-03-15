@@ -17,15 +17,6 @@
     - i3-lock
     - i3
 
-- name: Install dracula-cursors
-  kewlfft.aur.aur:
-    name: dracula-cursors-git
-    use: yay
-    state: "{{ pkg_state }}"
-  tags:
-    - dracula-cursors
-    - i3
-
 - name: Copy i3 dotfiles
   become: false
   ansible.builtin.git:
