@@ -67,7 +67,6 @@
      - keychain
      - htop
      - btop
-     - fzf
      - ripgrep
      - pwgen
      - ntp
