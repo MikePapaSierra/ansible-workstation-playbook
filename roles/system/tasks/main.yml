@@ -103,6 +103,7 @@
   kewlfft.aur.aur:
     name:
      - wttr
+     - posting
     use: yay
     state: "{{ pkg_state }}"
   tags:
