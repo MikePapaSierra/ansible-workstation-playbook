@@ -21,7 +21,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/i3.git
-    dest: /home/{{ username }}/.config/i3
+    dest: "{{ ansible_user_dir }}/.config/i3"
     single_branch: yes
     version: main
     update: no

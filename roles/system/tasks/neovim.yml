@@ -23,7 +23,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/nvim.git
-    dest: /home/{{ username }}/.config/nvim
+    dest: "{{ ansible_user_dir }}/.config/nvim"
     single_branch: yes
     version: master
     update: no

@@ -12,7 +12,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/starship.git
-    dest: /home/{{ username }}/.config/starship
+    dest: "{{ ansible_user_dir }}/.config/starship"
     single_branch: yes
     version: main 
     update: no
@@ -23,8 +23,8 @@
 - name: Create symlink for starship.toml
   become: false
   ansible.builtin.file:
-    src: /home/{{ username }}/.config/starship/starship.toml
-    dest: /home/{{ username }}/.config/starship.toml
+    src: "{{ ansible_user_dir }}/.config/starship/starship.toml"
+    dest: "{{ ansible_user_dir }}/.config/starship.toml"
     state: link
   tags:
     - starship

@@ -14,7 +14,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/kitty.git
-    dest: /home/{{ username }}/.config/kitty
+    dest: "{{ ansible_user_dir }}/.config/kitty"
     single_branch: yes
     version: main
     update: no

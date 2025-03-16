@@ -12,7 +12,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/git.git
-    dest: /home/{{ username }}/.config/git
+    dest: "{{ ansible_user_dir }}/.config/git"
     single_branch: yes
     version: main
     update: no
@@ -23,8 +23,8 @@
 - name: Create link for config file
   become: false
   ansible.builtin.file:
-    src: /home/{{ username }}/.config/git/gitconfig
-    dest: /home/{{ username }}/.gitconfig
+    src: "{{ ansible_user_dir }}/.config/git/gitconfig"
+    dest: "{{ ansible_user_dir }}/.gitconfig"
     state: link
   tags:
     - git
@@ -55,7 +55,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/lazygit.git
-    dest: /home/{{ username }}/.config/lazygit
+    dest: "{{ ansible_user_dir }}/.config/lazygit"
     single_branch: true
     version: main
     update: no
