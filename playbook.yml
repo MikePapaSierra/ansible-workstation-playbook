@@ -1,5 +1,5 @@
 ---
-- name: Configure a Manjaro OS with i3 as development workstation
+- name: Configure a Manjaro OS as development workstation
   hosts: localhost
   roles:
     - {role: system, tags: [system]}
