@@ -252,7 +252,7 @@ label = %percentage:2%%
 
 [module/wired-network]
 type = internal/network
-interface = {{ ansible_facts.['wired_iface'] }}
+interface = {{ wired_iface }}
 interface-type = wired
 format-connected = 󰈁 <label-connected>
 label-connected =   %downspeed%  %upspeed%
@@ -270,7 +270,7 @@ animation-packetloss-framerate = 500
 
 [module/wireless-netowrk]
 type = internal/network
-interface = {{ ansible_facts['wireless_iface'] }}
+interface = {{ wireless_iface }}
 interface-type = wireless
 format-connected = 󰖩  <label-connected> <ramp-signal>
 label-connected = %essid%  %downspeed%  %upspeed%
