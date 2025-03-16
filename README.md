@@ -58,7 +58,6 @@ Update of the single package:
 
 ## Testing
 
-Currently tests environments aren't available, please folow roadmap.
 
 ## Known Issues
 
