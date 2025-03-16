@@ -2,7 +2,7 @@ pkg_state: latest
 
 timezone: Europe/Warsaw
 
-username: MikePapaSierra
+username: mps
 
 ssh_key:
       id_rsa: !vault |
