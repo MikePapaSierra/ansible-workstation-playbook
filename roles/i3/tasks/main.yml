@@ -70,11 +70,42 @@
     - polybar
     - i3
 
+- name: Get wireless interface
+  set_fact:
+    wireless_iface: '{{ item }}'
+  loop: '{{ ansible_facts.interfaces }}'
+  when: 'item.startswith(wl)'
+
+- name: Get wired interface
+  set_fact:
+    wired_iface: '{{ item }}'
+  loop: '{{ ansible_facts.interfaces }}'
+  when: 'item.startswith(enp)'
+
 - name: Create polybar configuration
   ansible.builtin.template:
     dest: "{{ ansible_user_dir }}/.config/polybar/config.ini"
     src: "polybar.ini.j2"
   tags:
+    - polybar
+    - i3
+
+- name: Copy polybar scripts
+  ansible.builtin.copy:
+    dest: "{{ ansible_user_dir }}/.config/polybar/"
+    src: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  with_fileglob:
+    - "{{ role_path }}/templates/launch.sh" 
+    - "{{ role_path }}/templates/calendar.sh" 
+    - "{{ role_path }}/templates/pulseaudio-control.sh" 
+    - "{{ role_path }}/templates/rofi-usb-mount.sh" 
+    - "{{ role_path }}/templates/weather-plugin.sh" 
+    - "{{ role_path }}/templates/mocha.ini" 
+  tags:
+    - polybar-calendar
     - polybar
     - i3
 
@@ -116,7 +147,7 @@
   tags:
     - dunst
     - polybar
-    - i3
+    - i3 
 
 - name: Create Dunst configuration
   ansible.builtin.template:
