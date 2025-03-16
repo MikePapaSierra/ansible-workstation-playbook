@@ -1,4 +1,5 @@
 ---
+# TODO: Take a look on to new rofi extensions: https://github.com/adi1090x/rofi
 - name: Install rofi
   become: true
   ansible.builtin.package:
@@ -25,6 +26,30 @@
   ansible.builtin.template:
     src: config.rasi.j2
     dest: "{{ ansible_user_dir }}/.config/rofi/config.rasi"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+  tags:
+    - rofi
+    - i3
+
+- name: Create themes directory for rofi
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/rofi/themes"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  tags:
+    - rofi
+    - i3
+
+- name: Install Catppuccin-mocha theme for rofi
+  become: false
+  ansible.builtin.template:
+    src: "catppuccin-mocha.rasi.j2"
+    dest: "{{ ansible_user_dir }}/.config/rofi/themes/catppuccin-mocha.rasi"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: '0644'
@@ -67,6 +92,16 @@
     name: rofi-wifi-menu-git
     use: yay
     state: "{{ pkg_state }}"
+  tags:
+    - rofi-wifi-menu
+    - rofi
+    - i3
+
+- name: Copy rofi-wifi-menu config
+  become: true
+  ansible.builtin.template:
+    dest: "usr/bin/config"
+    src: "config.wifi-menu.j2"
   tags:
     - rofi-wifi-menu
     - rofi
