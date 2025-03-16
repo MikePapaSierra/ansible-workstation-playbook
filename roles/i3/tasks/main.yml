@@ -73,14 +73,14 @@
 - name: Get wireless interface
   set_fact:
     wireless_iface: '{{ item }}'
-  loop: '{{ ansible_facts.interfaces }}'
-  when: 'item.startswith(wl)'
+  loop: '{{ ansible_interfaces }}'
+  when: 'item.startswith("wl")'
 
 - name: Get wired interface
   set_fact:
     wired_iface: '{{ item }}'
-  loop: '{{ ansible_facts.interfaces }}'
-  when: 'item.startswith(enp)'
+  loop: '{{ ansible_interfaces }}'
+  when: 'item.startswith("en")'
 
 - name: Create polybar configuration
   ansible.builtin.template:
