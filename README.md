@@ -58,6 +58,7 @@ Update of the single package:
 
 ## Testing
 
+Currently tests environments aren't available.
 
 ## Known Issues
 
@@ -69,7 +70,7 @@ Not known.
 - Ensure that Ansible is present to be able run playbook
 
 ### Testing
-- Docker image to test CLI based softwar
+- Docker image to test CLI based software
 - VirtualBox based Vagrant box
 - Libvirt based Vagrant box
 
