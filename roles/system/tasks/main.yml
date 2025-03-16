@@ -93,7 +93,6 @@
      - dust
      - duf
      - xh
-     - bat
      - yazi
     state: "{{ pkg_state }}"
   tags:
@@ -151,3 +150,9 @@
 
 - name: Install and configure Snap
   ansible.builtin.import_tasks: snap.yml
+
+- name: Install and configure Fzf
+  ansible.builtin.import_tasks: fish.yml
+
+- name: Install and configure Bat
+  ansible.builtin.import_tasks: bat.yml
