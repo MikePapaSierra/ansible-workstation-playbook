@@ -75,24 +75,14 @@ Not known.
 - Libvirt based Vagrant box
 
 ### Shell/CLI
-- Oh-my-fish task
 - Bash configuration task
-- Figure out how to install and configure DraculaPro color theme for Neovim
-    1. Vim theme need to be put as an private repository
-    2. Repository should be placed in the ``~/.local/share/nvim/site/pack/themes/start/dracula_pro`` directory
-    3. dos2unix needs to be installed
-    4. ``find . -type f -exec dos2unix {} \;`` command needs to be executed on dracula_pro directory
-- Commitzen (https://github.com/commitizen/cz-cli) task
-- Lazygit configuration task
 
 ### User
 - Ensure that user account creation will not override data in home directory
-- Ensure that user is using Fish as defult shell
 - Create home folder structure
 
 ### i3
 - Add OpenWeather API key encrypted by Ansible vault
-- Dunst installation and configuration task
 
 ### Cloud
 - Tfsec task
@@ -101,10 +91,8 @@ Not known.
 ### Virtualization/containarization
 - Task to install VirtualBox kernel module in case when vm on Windows is used for tests or as a workstation
 - Task to install Kubespray
-- Task to install Kind
 
 ### Other
-- Belena-etcher task
 - Support for WSL/WSL
 - Extend that to Ubuntu based OS
 
