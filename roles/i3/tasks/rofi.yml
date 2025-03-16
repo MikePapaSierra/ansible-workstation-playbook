@@ -100,7 +100,7 @@
 - name: Copy rofi-wifi-menu config
   become: true
   ansible.builtin.template:
-    dest: "usr/bin/config"
+    dest: "/usr/bin/config"
     src: "config.wifi-menu.j2"
   tags:
     - rofi-wifi-menu
