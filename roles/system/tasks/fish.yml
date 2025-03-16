@@ -17,13 +17,6 @@
     - fish
     - system
 
-# TODO: For some reason it hangs on below task
-# Check that url or command modules can solve that.
-#- name: Install oh-my-fish
-#  shell: curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-#  tags:
-#    - fish
-
 - name: Get Fish dotfiles
   become: false
   ansible.builtin.git:
