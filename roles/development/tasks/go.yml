@@ -17,27 +17,21 @@
     - go
     - development
 
-- name: Add 'GOPATH' to Fish configuration
+- name: Check for GOPATH in Fish configuration
   become: false
-  ansible.builtin.lineinfile:
-    dest: /home/{{ username }}/.config/fish/config.fish
-    regexp: GOPATH
-    line: set GOPATH $HOME/go
-    owner: "{{ username }}"
-    state: present
-  notify: source $HOME/.config/fish/config.fish
+  ansible.builtin.shell: grep -c "GOPATH" $HOME/.config/fish/config.fish
+  register: fish_go_cfg
   tags:
     - go
     - development
 
-- name: Add Go to the 'PATH'
+- name: Set GOPATH
   become: false
   ansible.builtin.lineinfile:
-    dest: /home/{{ username }}/.config/fish/config.fish
-    regexp: PATH
-    line: set  PATH $HOME/go/bin $PATH
-    owner: "{{ username }}"
-    state: present
+    dest: "{{ ansible_user_dir }}/.config/fish/config.fish"
+    line: "if [ -d $HOME/go ]; set GOPATH $HOME/go; set PATH $HOME/go/bin $PATH; end"
+    notify: source $HOME/.config/fish/config.fish
+  when: fish_go_cfg.stdout == "0"
   tags:
     - go
     - development
