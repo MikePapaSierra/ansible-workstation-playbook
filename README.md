@@ -46,7 +46,7 @@ You can install Ansible using command ``pamac install ansible ansible-core`` or 
 
 Provisioning of the clean workstation:
 
-``ansible-playbook playbook.yml -l localhost``
+``ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml -l localhost ``
 
 Update of the operating system:
 
