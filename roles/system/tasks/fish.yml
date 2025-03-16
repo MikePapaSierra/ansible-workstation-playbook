@@ -35,15 +35,6 @@
     update: no
   tags:
     - fish
-
-- name: Install Peco
-  become: true
-  pacman:
-    name: peco
-    state: "{{ pkg_state }}"
-  tags:
-    - peco
-    - fish
     - system
 
 - name: Install Z
