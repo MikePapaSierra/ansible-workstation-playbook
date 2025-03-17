@@ -1,9 +1,15 @@
 ---
+- name: Check that users already exists
+  become: true
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ username }}"
+  register: user_check
+
 - name: Create a user account
   become: true
   ansible.builtin.user:
     name: "{{ username }}"
-    password:
     groups:
       - docker
       - wheel
@@ -15,11 +21,13 @@
       - audio
       - input
       - lp
+    append: yes
     state: present
     shell: /bin/fish
     system: false
     create_home: true
     home: /home/"{{ username }}"
+  when: user_check is failed
   tags:
     - user-account
     - users
