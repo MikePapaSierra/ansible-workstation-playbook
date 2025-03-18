@@ -16,27 +16,21 @@
 ;
 ;==========================================================
 
-[colors]
-background = #80282a36 
-background-alt = #80282A36
-foreground = #f8f8f2
-primary = #bd93f9
-secondary = #8be9fd
-alert = #ff5555
-disabled = #44475a
+# Include Catppuccin Mocha theme
+include-file =  $HOME/.config/polybar/mocha.ini
 
 [bar/example]
 width = 100%
 heigh = 14pt
 radius = 0
 
-background = ${colors.background}
-foreground = ${colors.foreground}
+background = ${colors.transparent}
+foreground = ${colors.text}
 
 line-size = 2pt
 
 border-size = 0pt
-border-color = ${colors.background}
+border-color = ${colors.transparent}
 
 padding-left = 1
 padding-right = 1
@@ -44,7 +38,7 @@ padding-right = 1
 module-margin = 1
 
 separator = |
-separator-foreground = ${colors.primary}
+separator-foreground = ${colors.mauve}
 
 font-0 = UbuntuMono Nerd Font;1
 
@@ -122,24 +116,24 @@ format = <label-state> <label-mode>
 
 label-mode = %mode%
 label-mode-padding = 1
-label-mode-background = ${colors.alert}
+label-mode-background = ${colors.red}
 
 label-focused = 
-label-focused-foreground = ${colors.foreground}
-label-focused-background = ${colors.background}
-label-focused-underline = ${colors.primary}
+label-focused-foreground = ${colors.text}
+label-focused-background = ${colors.transparent}
+label-focused-underline = ${colors.mauve}
 label-focused-padding = 1
 
 label-unfocused = %icon%
 label-unfocused-padding = 1
 
 label-visible = %icon%
-label-visible-underline = ${colors.secondary}
+label-visible-underline = ${colors.lavender}
 label-visible-padding = 1
 
 label-urgent = %icon%
-label-urgent-foreground = ${colors.foreground}
-label-urgent-background = ${colors.alert}
+label-urgent-foreground = ${colors.text}
+label-urgent-background = ${colors.red}
 label-urgent-padding = 1
 
 [module/weather]
@@ -168,12 +162,12 @@ label-mounted = 󱂵  %free%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume-prefix-foreground = ${colors.primary}
+format-volume-prefix-foreground = ${colors.mauve}
 format-volume = <ramp-volume> <label-volume>
 
 label-volume = %percentage%%
 
-label-muted-foreground = ${colors.disabled}
+label-muted-foreground = ${colors.surface2}
 
 label-muted =  	
 
@@ -188,9 +182,9 @@ click-right = pavucontrol
 [module/pulseaudio-control-output]
 type = custom/script
 tail = true
-format-underline = ${colors.cyan}
+format-underline = ${colors.lavender}
 label-padding = 2
-label-foreground = ${colors.foreground}
+label-foreground = ${colors.text}
 
 # Icons mixed from Font Awesome 5 and Material Icons
 # You can copy-paste your options for each possible action, which is more
@@ -206,9 +200,9 @@ scroll-down = pulseaudio-control --volume-max 130 down
 [module/pulseaudio-control-input]
 type = custom/script
 tail = true
-format-underline = ${colors.cyan}
+format-underline = ${colors.lavender}
 label-padding = 2
-label-foreground = ${colors.foreground}
+label-foreground = ${colors.text}
 
 # Use --node-blacklist to remove the unwanted PulseAudio .monitor that are child of sinks
 exec = pulseaudio-control  --node-type input --icons-volume "" --icon-muted "" --node-nickname "alsa_output.pci-0000_0c_00.3.analog-stereo:  Webcam" --node-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" --node-blacklist "*.monitor" listen
@@ -235,14 +229,14 @@ metadata_separator = "-"
 type = internal/memory
 interval = 2
 format-prefix = "󰍛 "
-format-prefix-foreground = ${colors.foreground}
+format-prefix-foreground = ${colors.text}
 label = %percentage_used:2%%
 
 [module/cpu]
 type = internal/cpu
 interval = 2
 format-prefix = "󰻠 "
-format-prefix-foreground = ${colors.foreground}
+format-prefix-foreground = ${colors.text}
 label = %percentage:2%%
 
 [module/wired-network]
@@ -251,16 +245,16 @@ interface = {{ wired_iface }}
 interface-type = wired
 format-connected = 󰈁 <label-connected>
 label-connected =   %downspeed%  %upspeed%
-label-connected-foreground = ${colors.secondary}
+label-connected-foreground = ${colors.lavender}
 format-disconnected = 󰈂 <label-disconnected>
 label-disconnected = %ifname%
-label-disconnected-foreground = ${colors.alert} 
+label-disconnected-foreground = ${colors.red} 
 
 format-packetloss = <animation-packetloss> 
 animation-packetloss-0 = 󰈀  
-animation-packetloss-0-foreground = ${colors.alert}
+animation-packetloss-0-foreground = ${colors.red}
 animation-packetloss-1 = 
-animation-packetloss-1-foreground = ${colors.disabled}
+animation-packetloss-1-foreground = ${colors.surface2}
 animation-packetloss-framerate = 500
 
 [module/wireless-network]
@@ -269,16 +263,16 @@ interface = {{ wireless_iface }}
 interface-type = wireless
 format-connected = 󰖩  <label-connected> <ramp-signal>
 label-connected = %essid%  %downspeed%  %upspeed%
-label-connected-foreground = ${colors.secondary}
+label-connected-foreground = ${colors.lavender}
 format-disconnected = 󱚼  <label-disconnected>
 label-disconnected = %essid%
-label-disconnected-foreground = ${colors.alert}
+label-disconnected-foreground = ${colors.red}
 
 format-packetloss = <animation-packetloss> 
 animation-packetloss-0 = 󱚵 
-animation-packetloss-0-foreground = ${colors.alert}
+animation-packetloss-0-foreground = ${colors.red}
 animation-packetloss-1 = 
-animation-packetloss-1-foreground = ${colors.disabled}
+animation-packetloss-1-foreground = ${colors.surface2}
 animation-packetloss-framerate = 500
 
 ramp-signal-0 = 󰢿 
@@ -337,7 +331,7 @@ interval = 1
 date = %H:%M:%S
 
 label = %date%
-label-foreground = ${colors.foreground}
+label-foreground = ${colors.text}
 label-font = 1
 format =  <label>
 
