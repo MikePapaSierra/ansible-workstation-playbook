@@ -15,5 +15,6 @@
     - {role: virtualization, tags: [virtualization]}
     - {role: i3, tags: [i3]}
     - {role: users, tags: [users]}
+    - {role: home-structure, tags: [home-structure]}
     - {role: utils, tags: [utils]}
 
