@@ -12,7 +12,7 @@
 
 - name: Install Cura
   kewlfft.aur.aur:
-    name: cura-5-bin
+    name: cura-bin
     use: yay
     state: "{{ pkg_state }}"
   tags:
