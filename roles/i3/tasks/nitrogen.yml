@@ -10,7 +10,7 @@
 
 - name: Nitrogen config directory
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.config/nitrogen"
+    path: "{{ ansible_facts['user_dir'] }}/.config/nitrogen"
     state: directory
     owner: "{{ username }}"
     group: "{{ username  }}"
@@ -21,7 +21,7 @@
 
 - name: Creating wallpaper directory
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/Pictures/Wallpapers"
+    path: "{{ ansible_facts['user_dir'] }}/Pictures/Wallpapers"
     state: directory
     owner: "{{ username }}"
     group: "{{ username  }}"
@@ -32,7 +32,7 @@
 
 - name: Copy wallpapers
   ansible.builtin.copy:
-    dest: "{{ ansible_user_dir }}/Pictures/Wallpapers/"
+    dest: "{{ ansible_facts['user_dir'] }}/Pictures/Wallpapers/"
     src: "{{ item }}"
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -45,7 +45,7 @@
 
 - name: nitrogen.cfg
   ansible.builtin.template:
-    dest: "{{ ansible_user_dir }}/.config/nitrogen/nitrogen.cfg"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/nitrogen/nitrogen.cfg"
     src: "nitrogen.cfg.j2"
   tags:
     - nitrogen
@@ -53,7 +53,7 @@
 
 - name: bg-saved.cfg
   ansible.builtin.template:
-    dest: "{{ ansible_user_dir }}/.config/nitrogen/bg-saved.cfg"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/nitrogen/bg-saved.cfg"
     src: "bg-saved.cfg.j2"
   register: bg
   when:
@@ -64,7 +64,7 @@
 
 - name: bg-saved.cfg
   ansible.builtin.template:
-    dest: "{{ ansible_user_dir }}/.config/nitrogen/bg-saved.cfg"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/nitrogen/bg-saved.cfg"
     src: "bg-saved-notebook.cfg.j2"
   register: bg
   when:
@@ -75,7 +75,7 @@
 
 - name: Restore wallpaper
   ansible.builtin.command: nitrogen --restore
-  when: bg.changed and ansible_facts['ansible_env.DESKTOP_SESSTION'] == "i3"
+  when: bg.changed and ansible_facts['env']['DESKTOP_SESSION'] == "i3"
   tags:
     - nitrogen
     - i3
