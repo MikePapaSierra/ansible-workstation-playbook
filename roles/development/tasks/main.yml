@@ -43,3 +43,6 @@
 
 - name: Install GitHub CLI
   ansible.builtin.import_tasks: github.yml
+
+- name: Install AI agent tools
+  ansible.builtin.import_tasks: ai-agents.yml

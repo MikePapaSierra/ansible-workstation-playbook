@@ -1,0 +1,21 @@
+---
+- name: Install uv (Python package/tool manager, required by uvx to run MCP servers)
+  become: true
+  ansible.builtin.package:
+    name: uv
+    state: "{{ pkg_state }}"
+  tags:
+    - uv
+    - mcp
+    - ai-agents
+    - development
+
+- name: Install herdr (terminal workspace manager for AI coding agents)
+  kewlfft.aur.aur:
+    name: herdr-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - herdr
+    - ai-agents
+    - development
