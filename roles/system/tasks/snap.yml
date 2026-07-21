@@ -42,7 +42,7 @@
   become: false
   ansible.builtin.file:
     src: /var/lib/snapd/desktop/applications
-    dest: "{{ ansible_user_dir }}/.local/share/applications/snap"
+    dest: "{{ ansible_facts['user_dir'] }}/.local/share/applications/snap"
     state: link
   tags:
     - snap

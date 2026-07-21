@@ -12,7 +12,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/tmux.git
-    dest: "{{ ansible_user_dir }}/.config/tmux"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/tmux"
     single_branch: yes
     version: master
     update: no
@@ -23,8 +23,8 @@
 - name: Create symlink to configuration file
   become: false
   ansible.builtin.file:
-    src: "{{ ansible_user_dir }}/.config/tmux/tmux.conf"
-    dest: "{{ ansible_user_dir }}/.tmux.conf"
+    src: "{{ ansible_facts['user_dir'] }}/.config/tmux/tmux.conf"
+    dest: "{{ ansible_facts['user_dir'] }}/.tmux.conf"
     state: link
   tags:
     - tmux
@@ -33,7 +33,7 @@
 - name: Create plugins directory
   become: false
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
+    path: "{{ ansible_facts['user_dir'] }}/.config/tmux/plugins/tpm"
     state: directory
     recurse: yes
     owner: "{{ username }}"
@@ -48,7 +48,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:tmux-plugins/tpm
-    dest: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/tmux/plugins/tpm"
     single_branch: yes
     version: master
     update: no
@@ -59,7 +59,7 @@
 
 - name: Install TPM
   become: false
-  ansible.builtin.command: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm/bin/install_plugins"
+  ansible.builtin.command: "{{ ansible_facts['user_dir'] }}/.config/tmux/plugins/tpm/bin/install_plugins"
   tags:
     - tpm
     - tmux

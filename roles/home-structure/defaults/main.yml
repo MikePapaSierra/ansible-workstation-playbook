@@ -2,7 +2,7 @@
 # Canonical home-directory layout, harmonized across all workstations
 # (see ~/home-directory-standardization-plan.md on bawzi for the design rationale).
 #
-# Paths are relative to the managed user's home directory ("{{ ansible_user_dir }}").
+# Paths are relative to the managed user's home directory ("{{ ansible_facts['user_dir'] }}").
 
 home_structure_directories:
   # Software repositories, split by ownership rather than visibility, since

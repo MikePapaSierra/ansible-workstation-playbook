@@ -11,7 +11,7 @@
 - name: Set Fish as default shell
   become: true
   ansible.builtin.user:
-    name: "{{ ansible_env['USER'] }}"
+    name: "{{ ansible_facts['env']['USER'] }}"
     shell: /usr/bin/fish
   tags:
     - fish
@@ -21,7 +21,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:MikePapaSierra/fish.git
-    dest: "{{ ansible_user_dir }}/.config/fish"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/fish"
     accept_hostkey: true
     single_branch: yes
     version: master
@@ -74,7 +74,7 @@
   become: false
   ansible.builtin.git:
     repo: git@github.com:xero/figlet-fonts.git
-    dest: "{{ ansible_user_dir }}/.local/share/fonts/figlet-fonts"
+    dest: "{{ ansible_facts['user_dir'] }}/.local/share/fonts/figlet-fonts"
     single_branch: yes
     version: master
     update: no
