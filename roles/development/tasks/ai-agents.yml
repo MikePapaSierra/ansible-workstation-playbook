@@ -19,3 +19,23 @@
     - herdr
     - ai-agents
     - development
+
+- name: Install Claude Code (Anthropic AI coding agent CLI)
+  kewlfft.aur.aur:
+    name: claude-code
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - claude-code
+    - ai-agents
+    - development
+
+- name: Install OpenCode (open source coding agent CLI)
+  become: true
+  ansible.builtin.package:
+    name: opencode
+    state: "{{ pkg_state }}"
+  tags:
+    - opencode
+    - ai-agents
+    - development
