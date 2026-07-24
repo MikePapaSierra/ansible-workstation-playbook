@@ -1,0 +1,47 @@
+---
+- name: Ensure canonical Agent Skills store exists
+  ansible.builtin.file:
+    path: "{{ ai_skills_store }}"
+    state: directory
+    mode: "0755"
+  when: ai_agent_skills | length > 0
+  tags:
+    - skills
+    - ai-agents
+
+- name: Fetch Agent Skill sources
+  ansible.builtin.git:
+    repo: "{{ item.src }}"
+    dest: "{{ ai_skills_store }}/{{ item.name }}"
+    version: "{{ item.version | default('HEAD') }}"
+  loop: "{{ ai_agent_skills }}"
+  loop_control:
+    label: "{{ item.name }}"
+  tags:
+    - skills
+    - ai-agents
+
+- name: Ensure client Agent Skills directories exist
+  ansible.builtin.file:
+    path: "{{ ai_agent_clients[item].skills_dir }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ ai_agent_skills | map(attribute='clients') | flatten | unique }}"
+  loop_control:
+    label: "{{ item }}"
+  tags:
+    - skills
+    - ai-agents
+
+- name: Symlink Agent Skills into client Agent Skills directories
+  ansible.builtin.file:
+    src: "{{ ai_skills_store }}/{{ item.0.name }}"
+    dest: "{{ ai_agent_clients[item.1].skills_dir }}/{{ item.0.name }}"
+    state: link
+    force: true
+  loop: "{{ ai_agent_skills | subelements('clients') }}"
+  loop_control:
+    label: "{{ item.0.name }} -> {{ item.1 }}"
+  tags:
+    - skills
+    - ai-agents

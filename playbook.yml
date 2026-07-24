@@ -8,6 +8,7 @@
     - {role: communication, tags: [communication]}
     - {role: development, tags: [development]}
     - {role: diy, tags: [diy]}
+    - {role: ai-agents, tags: [ai-agents]}
     - {role: editors, tags: [editors]}
     - {role: media, tags: [media]}
     - {role: productivity, tags: [productivity]}

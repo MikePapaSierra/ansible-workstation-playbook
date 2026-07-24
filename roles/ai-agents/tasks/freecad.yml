@@ -1,0 +1,40 @@
+---
+# Addon side of the "freecad" entry in ai_mcp_servers (see defaults/main.yml):
+# an RPC server that runs inside FreeCAD for the freecad-mcp MCP server to
+# talk to. https://github.com/neka-nat/freecad-mcp
+- name: Clone freecad-mcp repository
+  ansible.builtin.git:
+    repo: https://github.com/neka-nat/freecad-mcp.git
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/share/freecad-mcp"
+    version: main
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
+  tags:
+    - freecad
+    - mcp
+    - ai-agents
+
+- name: Ensure FreeCAD 1.1 Mod directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/share/FreeCAD/v1-1/Mod"
+    state: directory
+    mode: "0755"
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
+  tags:
+    - freecad
+    - mcp
+    - ai-agents
+
+- name: Symlink FreeCAD MCP addon into FreeCAD's Mod directory
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.local/share/freecad-mcp/addon/FreeCADMCP"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/share/FreeCAD/v1-1/Mod/FreeCADMCP"
+    state: link
+    force: true
+  when:
+    - ansible_facts['form_factor'] == "Desktop"
+  tags:
+    - freecad
+    - mcp
+    - ai-agents

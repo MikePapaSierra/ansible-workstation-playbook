@@ -1,0 +1,39 @@
+---
+- name: Determine which MCP-capable clients are actually in use
+  ansible.builtin.set_fact:
+    _ai_mcp_clients_used: "{{ ai_mcp_servers | map(attribute='clients') | flatten | unique }}"
+  tags:
+    - mcp
+    - ai-agents
+
+- name: List currently registered MCP servers per client
+  ansible.builtin.command: "{{ ai_agent_clients[item].mcp_list_cmd }}"
+  register: _ai_mcp_list
+  changed_when: false
+  failed_when: false
+  loop: "{{ _ai_mcp_clients_used }}"
+  loop_control:
+    label: "{{ item }}"
+  tags:
+    - mcp
+    - ai-agents
+
+- name: Index registered-server output by client
+  ansible.builtin.set_fact:
+    _ai_mcp_registered: "{{ dict(_ai_mcp_list.results | map(attribute='item') | zip(_ai_mcp_list.results | map(attribute='stdout')) | list) }}"
+  tags:
+    - mcp
+    - ai-agents
+
+- name: Register MCP servers that are missing
+  ansible.builtin.command: >-
+    {{ ai_agent_clients[item.1].mcp_add_cmd }} {{ item.0.name }}
+    {% for key, value in (item.0.env | default({})).items() %}--env {{ key }}={{ value }} {% endfor %}
+    -- {{ item.0.command }} {{ item.0.args | join(' ') }}
+  loop: "{{ ai_mcp_servers | subelements('clients') }}"
+  loop_control:
+    label: "{{ item.0.name }} -> {{ item.1 }}"
+  when: item.0.name not in _ai_mcp_registered[item.1]
+  tags:
+    - mcp
+    - ai-agents

@@ -1,0 +1,33 @@
+---
+# Clients capable of hosting MCP servers and Agent Skills, and how to drive
+# each one from the command line. Both CLIs share near-identical syntax:
+#   <mcp_add_cmd> <name> [--env K=V ...] -- <command> [args...]
+#   <mcp_list_cmd> [--json]
+ai_agent_clients:
+  claude:
+    mcp_add_cmd: claude mcp add --scope user
+    mcp_list_cmd: claude mcp list
+    skills_dir: "{{ ansible_facts['env']['HOME'] }}/.claude/skills"
+  copilot:
+    mcp_add_cmd: copilot mcp add
+    mcp_list_cmd: copilot mcp list
+    skills_dir: "{{ ansible_facts['env']['HOME'] }}/.copilot/skills"
+
+# MCP servers to register for the clients listed under each entry's `clients`.
+ai_mcp_servers:
+  - name: freecad
+    command: uvx
+    args:
+      - freecad-mcp
+    clients:
+      - claude
+      - copilot
+
+# Agent Skills (https://agentskills.io) to install for the clients listed
+# under each entry's `clients`. `src` is a git repo URL; add entries here as
+# you pick up skills worth sharing between Claude and Copilot.
+ai_agent_skills: []
+
+# Where skill sources are cloned to before being symlinked into each
+# client's skills_dir.
+ai_skills_store: "{{ ansible_facts['env']['HOME'] }}/.local/share/agent-skills"

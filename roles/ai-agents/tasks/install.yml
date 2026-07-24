@@ -8,7 +8,6 @@
     - uv
     - mcp
     - ai-agents
-    - development
 
 - name: Install herdr (terminal workspace manager for AI coding agents)
   kewlfft.aur.aur:
@@ -18,7 +17,6 @@
   tags:
     - herdr
     - ai-agents
-    - development
 
 - name: Install Claude Code (Anthropic AI coding agent CLI)
   kewlfft.aur.aur:
@@ -28,7 +26,15 @@
   tags:
     - claude-code
     - ai-agents
-    - development
+
+- name: Install GitHub Copilot CLI
+  kewlfft.aur.aur:
+    name: github-copilot-cli
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - copilot-cli
+    - ai-agents
 
 - name: Install OpenCode (open source coding agent CLI)
   become: true
@@ -38,4 +44,3 @@
   tags:
     - opencode
     - ai-agents
-    - development
