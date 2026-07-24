@@ -9,6 +9,16 @@
     - osUpgrade
     - system
 
+- name: Upgrade AUR packages
+  kewlfft.aur.aur:
+    upgrade: true
+    use: yay
+  tags:
+    - pre
+    - osUpgrade
+    - aurUpgrade
+    - system
+
 - name: Configure sudo
   become: true
   ansible.builtin.replace:

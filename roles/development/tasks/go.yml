@@ -28,7 +28,7 @@
 - name: Set GOPATH
   become: false
   ansible.builtin.lineinfile:
-    dest: "{{ ansible_user_dir }}/.config/fish/config.fish"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/fish/config.fish"
     line: "if [ -d $HOME/go ]; set GOPATH $HOME/go; set PATH $HOME/go/bin $PATH; end"
     notify: source $HOME/.config/fish/config.fish
   when: fish_go_cfg.stdout == "0"

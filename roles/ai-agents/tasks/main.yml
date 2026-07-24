@@ -1,0 +1,12 @@
+---
+- name: Install AI agent CLIs
+  ansible.builtin.import_tasks: install.yml
+
+- name: Install FreeCAD MCP addon
+  ansible.builtin.import_tasks: freecad.yml
+
+- name: Register MCP servers with AI agent clients
+  ansible.builtin.import_tasks: mcp-servers.yml
+
+- name: Install Agent Skills for AI agent clients
+  ansible.builtin.import_tasks: skills.yml

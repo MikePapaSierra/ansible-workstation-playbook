@@ -14,7 +14,7 @@
 - name: Create config directory for bat
   become: false
   ansible.builtin.file:
-    path: "$(bat --config-dir)/themes"
+    path: "{{ ansible_facts['user_dir'] }}/.config/bat/themes"
     state: directory
     recurse: true
     owner: "{{ username }}"
@@ -29,7 +29,7 @@
   become: false
   ansible.builtin.get_url:
     url: https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
-    dest: "$(bat --config-dir)/themes"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/bat/themes/Catppuccin Mocha.tmTheme"
   tags:
     - bat
     - extraSysUtils
@@ -46,7 +46,7 @@
 - name: Create bat config file
   become: false
   ansible.builtin.file:
-    path: "{{ansible_user_dir}}/.config/bat/config"
+    path: "{{ansible_facts['user_dir']}}/.config/bat/config"
     state: touch
   tags:
     - bat
@@ -56,7 +56,7 @@
 - name: Set Catppuccin as default theme for bat
   become: false
   ansible.builtin.lineinfile:
-    path: "{{ansible_user_dir}}/.config/bat/config"
+    path: "{{ansible_facts['user_dir']}}/.config/bat/config"
     line: "--theme='Catppuccin Mocha'"
   tags:
     - bat

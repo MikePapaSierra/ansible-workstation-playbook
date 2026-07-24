@@ -1,0 +1,46 @@
+---
+- name: Install uv (Python package/tool manager, required by uvx to run MCP servers)
+  become: true
+  ansible.builtin.package:
+    name: uv
+    state: "{{ pkg_state }}"
+  tags:
+    - uv
+    - mcp
+    - ai-agents
+
+- name: Install herdr (terminal workspace manager for AI coding agents)
+  kewlfft.aur.aur:
+    name: herdr-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Install Claude Code (Anthropic AI coding agent CLI)
+  kewlfft.aur.aur:
+    name: claude-code
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - claude-code
+    - ai-agents
+
+- name: Install GitHub Copilot CLI
+  kewlfft.aur.aur:
+    name: github-copilot-cli
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - copilot-cli
+    - ai-agents
+
+- name: Install OpenCode (open source coding agent CLI)
+  become: true
+  ansible.builtin.package:
+    name: opencode
+    state: "{{ pkg_state }}"
+  tags:
+    - opencode
+    - ai-agents
