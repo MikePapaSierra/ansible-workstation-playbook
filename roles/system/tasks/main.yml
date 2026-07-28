@@ -84,6 +84,7 @@
      - wget
      - minicom
      - wavemon
+     - net-tools
     state: "{{ pkg_state }}"
   tags:
     - sysUtils
