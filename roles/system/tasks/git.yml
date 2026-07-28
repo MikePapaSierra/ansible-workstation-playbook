@@ -73,3 +73,13 @@
     - commitizen
     - git
     - system
+
+- name: Install Lazyworktree
+  kewlfft.aur.aur:
+    name: lazyworktree-bin
+    use: yay
+    state: "{{ pkg_state }}"
+  tags:
+    - lazyworktree
+    - git
+    - system
