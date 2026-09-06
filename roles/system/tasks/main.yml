@@ -110,10 +110,19 @@
     - extraSysUtils
     - system
 
+- name: Remove legacy wttr AUR package
+  become: true
+  community.general.pacman:
+    name: wttr
+    state: absent
+  tags:
+    - extraSysUtils
+    - system
+
 - name: Install extra CLI utils from AUR
   kewlfft.aur.aur:
     name:
-     - wttr
+     - wttr-bin
      - posting
     use: yay
     state: "{{ pkg_state }}"
