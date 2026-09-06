@@ -21,36 +21,33 @@ include-file =  $HOME/.config/polybar/mocha.ini
 
 [bar/example]
 width = 100%
-heigh = 14pt
-radius = 0
+heigh = 16pt
+radius = 8
 
-background = ${colors.transparent}
+background = ${colors.base}
 foreground = ${colors.text}
 
 line-size = 2pt
 
-border-size = 0pt
-border-color = ${colors.transparent}
+border-size = 2pt
+border-color = ${colors.surface0}
 
-padding-left = 1
-padding-right = 1
+padding-left = 2
+padding-right = 2
 
 module-margin = 1
 
-separator = |
-separator-foreground = ${colors.mauve}
+separator =
+separator-foreground = ${colors.overlay0}
 
 font-0 = UbuntuMono Nerd Font;1
 
 modules-left = i3 
-modules-right = weather wireless-network wired-network fs-root memory cpu battery pulseaudio-control-output bluetooth rofi-usb-mount date calendar
+modules-right = weather wireless-network wired-network fs-root memory cpu battery pulseaudio-control-output bluetooth rofi-usb-mount date calendar tray
 cursor-click = pointer
 cursor-scroll = ns-resize
 
 enable-ipc = true
-
-tray-position = right
-tray-padding = 1
 ; wm-restack = generic
 ; wm-restack = bspwm
 ; wm-restack = i3
@@ -141,17 +138,41 @@ type = custom/script
 exec = $HOME/.config/polybar/weather-plugin.sh
 tail = false
 interval = 960
+format-foreground = ${colors.sky}
 
 [module/filesystem]
 type = internal/fs
 fixed-values = true
 interval = 25
+spacing = 2
 
 [module/fs-root]
 inherit = module/filesystem
 mount-0 = /
 
-label-mounted =   %free%
+format-mounted = <label-mounted>
+format-mounted-prefix = "󰋊 "
+format-mounted-prefix-foreground = ${colors.green}
+label-mounted = %percentage_used%%
+label-mounted-foreground = ${colors.text}
+
+; Warning colors when disk is getting full
+format-warn = <label-warn>
+format-warn-prefix = "󰋊 "
+format-warn-prefix-foreground = ${colors.yellow}
+label-warn = %percentage_used%%
+label-warn-foreground = ${colors.yellow}
+
+; Critical colors when disk is almost full
+format-full = <label-full>
+format-full-prefix = "󰋊 "
+format-full-prefix-foreground = ${colors.red}
+label-full = %percentage_used%%
+label-full-foreground = ${colors.red}
+
+; Thresholds
+warn-percentage = 80
+full-percentage = 95
 
 [module/fs-home]
 inherit = module/filesystem
@@ -228,16 +249,28 @@ metadata_separator = "-"
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "󰍛 "
-format-prefix-foreground = ${colors.text}
-label = %percentage_used:2%%
+format = <label>
+format-prefix = "󰘚 "
+format-prefix-foreground = ${colors.blue}
+label = %used%
+label-foreground = ${colors.text}
 
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "󰻠 "
-format-prefix-foreground = ${colors.text}
-label = %percentage:2%%
+format = <label>
+format-prefix = "󰍛 "
+format-prefix-foreground = ${colors.peach}
+label = %percentage%%
+label-foreground = ${colors.text}
+
+; Warning when CPU usage is high
+warn-percentage = 80
+format-warn = <label-warn>
+format-warn-prefix = "󰍛 "
+format-warn-prefix-foreground = ${colors.yellow}
+label-warn = %percentage%%
+label-warn-foreground = ${colors.yellow}
 
 [module/wired-network]
 type = internal/network
@@ -276,14 +309,18 @@ animation-packetloss-1-foreground = ${colors.surface2}
 animation-packetloss-framerate = 500
 
 ramp-signal-0 = 󰢿 
+ramp-signal-0-foreground = ${colors.red}
 ramp-signal-1 = 󰢼 
+ramp-signal-1-foreground = ${colors.yellow}
 ramp-signal-2 = 󰢽 
+ramp-signal-2-foreground = ${colors.peach}
 ramp-signal-3 = 󰢾 
+ramp-signal-3-foreground = ${colors.green}
 
 [module/bluetooth]
 type = custom/script
-exec = rofi-bluetooth --status
-interval = 1
+exec = $HOME/.config/polybar/bluetooth-status.sh
+interval = 5
 click-left = rofi-bluetooth &
 
 [module/battery]
@@ -302,10 +339,16 @@ poll-interval = 5
 time-format = %H:%M
 
 format-charging = <ramp-capacity>  <label-charging>
+format-charging-foreground = ${colors.green}
 
 format-discharging = <ramp-capacity>  <label-discharging>
+format-discharging-foreground = ${colors.text}
 
 format-low = <label-low> <animation-low>
+format-low-foreground = ${colors.red}
+
+format-full = <ramp-capacity>  <label-full>
+format-full-foreground = ${colors.green}
 
 label-charging =  %time% %percentage%%
 
@@ -313,15 +356,24 @@ label-discharging = %percentage%%
 
 label-low = %time% %percentage%%
 
-; Only applies if <ramp-capacity> is used
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
+label-full = %percentage%%
 
-animation-low-0 = 
-animation-low-1 = 
+; Only applies if <ramp-capacity> is used
+ramp-capacity-0 = 󰂎
+ramp-capacity-0-foreground = ${colors.red}
+ramp-capacity-1 = 󰁺
+ramp-capacity-1-foreground = ${colors.yellow}
+ramp-capacity-2 = 󰁿
+ramp-capacity-2-foreground = ${colors.yellow}
+ramp-capacity-3 = 󰂀
+ramp-capacity-3-foreground = ${colors.green}
+ramp-capacity-4 = 󰁹
+ramp-capacity-4-foreground = ${colors.green}
+
+animation-low-0 = 󰂎
+animation-low-0-foreground = ${colors.red}
+animation-low-1 = 󰁺
+animation-low-1-foreground = ${colors.maroon}
 animation-low-framerate = 500
 
 [module/date]
@@ -330,14 +382,14 @@ interval = 1
 
 date = %H:%M:%S
 
-label = %date%
+label =  %date%
 label-foreground = ${colors.text}
 label-font = 1
-format =  <label>
 
 [module/calendar]
 type = custom/script
 label = "󰃭"
+label-foreground = ${colors.pink}
 exec = echo Calendar
 click-left = ~/.config/polybar/calendar.sh curr
 scroll-up = ~/.config/polybar/calendar.sh next
@@ -347,6 +399,7 @@ scroll-down = ~/.config/polybar/calendar.sh prev
 type = custom/script
 exec = ~/.config/polybar/rofi-usb-mount.sh --check
 tail = true
+format-foreground = ${colors.teal}
 click-left = ~/.config/polybar/rofi-usb-mount.sh --mount
 click-right = ~/.config/polybar/rofi-usb-mount.sh --umount
 click-middle = ~/.config/polybar/rofi-usb-mount.sh --umount-all
@@ -356,8 +409,16 @@ type = custom/script
 click-left = i3-gnome-pomodoro toggle
 click-middle = gnome-pomodoro
 click-right = i3-gnome-pomodoro start_stop
-exec = i3-gnome-pomodoro status --always --icon-text " "
+exec = i3-gnome-pomodoro status --always --icon-text " "
 interval = 1
+
+[module/tray]
+type = internal/tray
+
+format-margin = 8pt
+tray-spacing = 16pt
+tray-size = 60%
+tray-background = ${colors.surface0}
 
 [settings]
 screenchange-reload = true
