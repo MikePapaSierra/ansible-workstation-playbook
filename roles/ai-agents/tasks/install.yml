@@ -36,10 +36,19 @@
     - copilot-cli
     - ai-agents
 
-- name: Install OpenCode (open source coding agent CLI)
+- name: Remove repository OpenCode package
   become: true
-  ansible.builtin.package:
+  community.general.pacman:
     name: opencode
+    state: absent
+  tags:
+    - opencode
+    - ai-agents
+
+- name: Install OpenCode (open source coding agent CLI)
+  kewlfft.aur.aur:
+    name: opencode-bin
+    use: yay
     state: "{{ pkg_state }}"
   tags:
     - opencode
