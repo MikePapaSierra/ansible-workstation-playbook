@@ -10,32 +10,6 @@ home_structure_directories:
   - Development/personal
   - Development/work
 
-  # Active, cross-domain projects.
-  - projects/work
-  - projects/home
-  - projects/maker
-  - projects/family
-  - projects/learning
-  - projects/personal
-  - projects/archive
-
-  # The "second brain": notes, agent context, backups and historical material.
-  - second-brain/vaults
-  - second-brain/agents/context
-  - second-brain/agents/instructions
-  - second-brain/agents/sessions
-  - second-brain/backups
-  - second-brain/archive
-  - second-brain/experiments
-
-  # Long-lived domain material that isn't a discrete "project".
-  - learning
-  - maker
-  - family
-  - media
-  - review
-  - personal
-
 # Canonical Obsidian vault location. An empty directory is created so the
 # compatibility symlink below always has a valid target; note-taking content
 # itself is expected to arrive via Obsidian Sync (or a manual restore), not
