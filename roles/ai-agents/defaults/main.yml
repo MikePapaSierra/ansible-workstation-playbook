@@ -31,3 +31,9 @@ ai_agent_skills: []
 # Where skill sources are cloned to before being symlinked into each
 # client's skills_dir.
 ai_skills_store: "{{ ansible_facts['env']['HOME'] }}/.local/share/agent-skills"
+
+# Herdr keeps runtime state beside its active configuration. Keep the Git
+# checkout separate and link only the portable, reviewed configuration files.
+herdr_config_repository: git@github.com:MikePapaSierra/herdr.git
+herdr_config_version: main
+herdr_config_checkout: "{{ ansible_facts['user_dir'] }}/Development/personal/herdr"

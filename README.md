@@ -48,6 +48,19 @@ Provisioning of the clean workstation:
 
 ``ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml -l localhost ``
 
+### Herdr configuration
+
+The `ai-agents` role installs Herdr and checks out
+[the Herdr configuration repository](https://github.com/MikePapaSierra/herdr)
+to `~/Development/personal/herdr`. It then links the repository's
+`config.toml` and `plugins/usagebar.toml` into Herdr's active configuration
+paths. Runtime state, logs, sockets, and plugin-managed files remain outside
+the checkout.
+
+Apply only this setup with:
+
+``ansible-playbook playbook.yml -l localhost -t herdr``
+
 Update of the operating system:
 
 ``ansible-playbook playbook.yml -l localhost -t osUpgrade``
