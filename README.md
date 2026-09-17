@@ -56,6 +56,52 @@ Update of the single package:
 
 ``ansible-playbook playbook.yml -l localhost -t [app_name] --extra-vars "pkg_state=latest"``
 
+## AI agent configuration
+
+The `ai-agents` role installs the OpenCode and Herdr CLIs, then clones their
+configuration repositories and links their portable configuration into the
+standard XDG paths. It also installs the existing FreeCAD MCP server for
+Claude, GitHub Copilot, and OpenCode; links optional shared skills into all
+three clients; installs the pinned Herdr plugins; and installs Herdr's managed
+OpenCode lifecycle hook.
+
+```mermaid
+flowchart TD
+    Playbook["Ansible workstation playbook"]
+    System["System role: Fish, Kitty, tmux, Neovim"]
+    Agents["AI agents role"]
+    OpenCodeRepo["~/opencode"]
+    HerdrRepo["~/herdr"]
+    OpenCodeConfig["~/.config/opencode"]
+    HerdrConfig["~/.config/herdr"]
+    NvimPlugin["~/.config/nvim/lua/plugins/opencode.lua"]
+    Skills["~/.local/share/agent-skills"]
+    FreeCAD["FreeCAD MCP"]
+
+    Playbook --> System
+    Playbook --> Agents
+    Agents --> OpenCodeRepo
+    Agents --> HerdrRepo
+    OpenCodeRepo -->|"symlinks"| OpenCodeConfig
+    OpenCodeRepo -->|"symlink"| NvimPlugin
+    HerdrRepo -->|"symlinks"| HerdrConfig
+    Agents --> Skills
+    Agents --> FreeCAD
+```
+
+Run just this setup after installing Ansible Galaxy dependencies:
+
+```bash
+ansible-galaxy install -r requirements.yml
+ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml \
+  -l localhost --tags ai-agents
+```
+
+Define `ai_agent_skills` in inventory or `group_vars` to install a skill source
+once under `~/.local/share/agent-skills` and link it to any selected clients.
+Each entry has `name`, `src`, optional `version`, and a `clients` list containing
+`claude`, `copilot`, and/or `opencode`.
+
 ## Testing
 
 Currently tests environments aren't available.

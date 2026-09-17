@@ -2,6 +2,9 @@
 - name: Install AI agent CLIs
   ansible.builtin.import_tasks: install.yml
 
+- name: Install AI agent configurations and integrations
+  ansible.builtin.import_tasks: configuration.yml
+
 - name: Install FreeCAD MCP addon
   ansible.builtin.import_tasks: freecad.yml
 

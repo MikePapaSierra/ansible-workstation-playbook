@@ -12,6 +12,10 @@ ai_agent_clients:
     mcp_add_cmd: copilot mcp add
     mcp_list_cmd: copilot mcp list
     skills_dir: "{{ ansible_facts['env']['HOME'] }}/.copilot/skills"
+  opencode:
+    mcp_add_cmd: opencode mcp add
+    mcp_list_cmd: opencode mcp list
+    skills_dir: "{{ ansible_facts['env']['HOME'] }}/.config/opencode/skills"
 
 # MCP servers to register for the clients listed under each entry's `clients`.
 ai_mcp_servers:
@@ -22,12 +26,36 @@ ai_mcp_servers:
     clients:
       - claude
       - copilot
+      - opencode
 
 # Agent Skills (https://agentskills.io) to install for the clients listed
 # under each entry's `clients`. `src` is a git repo URL; add entries here as
-# you pick up skills worth sharing between Claude and Copilot.
+# you pick up skills worth sharing between Claude, Copilot, and OpenCode.
 ai_agent_skills: []
 
 # Where skill sources are cloned to before being symlinked into each
 # client's skills_dir.
 ai_skills_store: "{{ ansible_facts['env']['HOME'] }}/.local/share/agent-skills"
+
+# Portable agent configuration repositories installed by configuration.yml.
+ai_agent_configuration_repositories:
+  - name: opencode
+    repo: git@github.com:MikePapaSierra/opencode.git
+    dest: "{{ ansible_facts['user_dir'] }}/opencode"
+    version: main
+  - name: herdr
+    repo: git@github.com:MikePapaSierra/herdr.git
+    dest: "{{ ansible_facts['user_dir'] }}/herdr"
+    version: main
+
+ai_herdr_plugins:
+  - source: senna-lang/herdr-agent-usage
+    ref: cfd84237738c3e653274b4f0090cf1ab779234e8
+  - source: cloudmanic/herdr-plus
+    ref: f38df3570bea8f7ca71dc1ba11bce3b123d14402
+  - source: Davidcreador/herdr-token-dashboard
+    ref: fd786877f7a7492ebaa6da0d4d0c50b2e8d536ef
+  - source: speardragon/herdr-yazi
+    ref: 54aa4e6dff480189630fa3593146cdcc2768ade9
+  - source: paulbkim-dev/vim-herdr-navigation
+    ref: 79679dacc791f70fc34de8b29a3cf9706c0f5b2f
