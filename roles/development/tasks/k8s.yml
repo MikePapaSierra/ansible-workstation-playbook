@@ -69,9 +69,19 @@
     - k8s
     - development
 
+- name: Remove repository kind package
+  become: true
+  community.general.pacman:
+    name: kind
+    state: absent
+  tags:
+    - kind
+    - k8s
+    - development
+
 - name: Install kind
   kewlfft.aur.aur:
-    name: kind
+    name: kind-bin
     use: yay
     state: "{{ pkg_state }}"
   tags:
