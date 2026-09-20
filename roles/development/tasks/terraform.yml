@@ -8,3 +8,25 @@
     - terraform
     - cloud
     - development
+
+- name: Install TFLint
+  become: true
+  ansible.builtin.package:
+    name: tflint
+    state: "{{ pkg_state }}"
+  tags:
+    - tflint
+    - terraform
+    - cloud
+    - development
+
+- name: Install pre-commit
+  become: true
+  ansible.builtin.package:
+    name: pre-commit
+    state: "{{ pkg_state }}"
+  tags:
+    - pre-commit
+    - terraform
+    - cloud
+    - development
