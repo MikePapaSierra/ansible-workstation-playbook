@@ -1,19 +1,20 @@
 ---
-# Clients capable of hosting MCP servers and Agent Skills, and how to drive
-# each one from the command line. Both CLIs share near-identical syntax:
+# Clients capable of hosting MCP servers, and how to drive each one from the
+# command line. Both CLIs share near-identical syntax:
 #   <mcp_add_cmd> <name> [--env K=V ...] -- <command> [args...]
 #   <mcp_list_cmd> [--json]
 ai_agent_clients:
   claude:
     mcp_add_cmd: claude mcp add --scope user
     mcp_list_cmd: claude mcp list
-    skills_dir: "{{ ansible_facts['env']['HOME'] }}/.claude/skills"
   copilot:
     mcp_add_cmd: copilot mcp add
     mcp_list_cmd: copilot mcp list
-    skills_dir: "{{ ansible_facts['env']['HOME'] }}/.copilot/skills"
 
 # MCP servers to register for the clients listed under each entry's `clients`.
+# OpenCode is intentionally excluded here: its MCP servers (e.g. `freecad`)
+# are declared directly in the tracked opencode.jsonc (see opencode.yml) and
+# don't go through `opencode mcp add`.
 ai_mcp_servers:
   - name: freecad
     command: uvx
@@ -23,17 +24,48 @@ ai_mcp_servers:
       - claude
       - copilot
 
-# Agent Skills (https://agentskills.io) to install for the clients listed
-# under each entry's `clients`. `src` is a git repo URL; add entries here as
-# you pick up skills worth sharing between Claude and Copilot.
-ai_agent_skills: []
-
-# Where skill sources are cloned to before being symlinked into each
-# client's skills_dir.
-ai_skills_store: "{{ ansible_facts['env']['HOME'] }}/.local/share/agent-skills"
+# Agent Skills (https://skills.sh/), installed with the `skills` CLI
+# (`npx skills`), which is the actual source of truth for skill discovery
+# across every agent CLI on the machine (Claude, Copilot, OpenCode, and any
+# other agent it detects). `agents` is passed as `--agent`; use '*' to
+# install into every agent the CLI finds. `skill` restricts installation to
+# a single skill when `package` bundles more than one (pass `--skill`).
+ai_agent_skills:
+  - package: ogulcancelik/herdr
+    agents: "*"
+  - package: vercel-labs/skills
+    skill: find-skills
+    agents: "*"
 
 # Herdr keeps runtime state beside its active configuration. Keep the Git
 # checkout separate and link only the portable, reviewed configuration files.
 herdr_config_repository: git@github.com:MikePapaSierra/herdr.git
 herdr_config_version: main
-herdr_config_checkout: "{{ ansible_facts['user_dir'] }}/Development/personal/herdr"
+herdr_config_checkout: "{{ ansible_facts['user_dir'] }}/herdr"
+
+# Herdr plugins to install, pinned to reviewed commits. See
+# https://github.com/MikePapaSierra/herdr#plugins for the source of truth
+# and the rationale for each pin.
+herdr_plugins:
+  - repo: senna-lang/herdr-agent-usage
+    ref: cfd84237738c3e653274b4f0090cf1ab779234e8
+    id: usagebar
+  - repo: cloudmanic/herdr-plus
+    ref: f38df3570bea8f7ca71dc1ba11bce3b123d14402
+    id: cloudmanic.herdr-plus
+  - repo: Davidcreador/herdr-token-dashboard
+    ref: fd786877f7a7492ebaa6da0d4d0c50b2e8d536ef
+    id: dave.token-dashboard
+  - repo: speardragon/herdr-yazi
+    ref: 54aa4e6dff480189630fa3593146cdcc2768ade9
+    id: ray.file-explorer
+  - repo: paulbkim-dev/vim-herdr-navigation
+    ref: 79679dacc791f70fc34de8b29a3cf9706c0f5b2f
+    id: vim-herdr-navigation
+
+# OpenCode configuration is tracked in its own repository for the same
+# reason as Herdr's: keep the portable, reviewed configuration in Git while
+# leaving node_modules, plugin runtime state, and credentials untracked.
+opencode_config_repository: git@github.com:MikePapaSierra/opencode.git
+opencode_config_version: main
+opencode_config_checkout: "{{ ansible_facts['user_dir'] }}/opencode"

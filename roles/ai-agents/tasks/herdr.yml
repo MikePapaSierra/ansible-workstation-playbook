@@ -1,10 +1,16 @@
 ---
-- name: Ensure Herdr configuration checkout directory exists
-  become: false
-  ansible.builtin.file:
-    path: "{{ herdr_config_checkout | dirname }}"
-    state: directory
-    mode: "0755"
+- name: Install prerequisites for Herdr plugins
+  become: true
+  ansible.builtin.package:
+    name:
+      # Required to build the usagebar, herdr-plus, and token-dashboard
+      # plugins locally.
+      - go
+      # Required by the ray.file-explorer plugin.
+      - yazi
+      # Used by several plugins' helper scripts.
+      - jq
+    state: "{{ pkg_state }}"
   tags:
     - herdr
     - ai-agents
@@ -39,6 +45,19 @@
     dest: "{{ ansible_facts['user_dir'] }}/.config/herdr/config.toml"
     state: link
     force: true
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Install pinned Herdr plugins
+  become: false
+  ansible.builtin.command: >-
+    herdr plugin install {{ item.repo }} --ref {{ item.ref }} --yes
+  args:
+    creates: "{{ ansible_facts['user_dir'] }}/.config/herdr/plugins/config/{{ item.id }}"
+  loop: "{{ herdr_plugins }}"
+  loop_control:
+    label: "{{ item.repo }}"
   tags:
     - herdr
     - ai-agents

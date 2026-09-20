@@ -50,16 +50,42 @@ Provisioning of the clean workstation:
 
 ### Herdr configuration
 
-The `ai-agents` role installs Herdr and checks out
-[the Herdr configuration repository](https://github.com/MikePapaSierra/herdr)
-to `~/Development/personal/herdr`. It then links the repository's
-`config.toml` and `plugins/usagebar.toml` into Herdr's active configuration
-paths. Runtime state, logs, sockets, and plugin-managed files remain outside
-the checkout.
+The `ai-agents` role installs Herdr, its pinned plugins (Agent Usage, Herdr
+Plus, Token Dashboard, Yazi Explorer, and the Neovim navigation plugin) and
+their prerequisites (Go, Yazi, `jq`), and checks out [the Herdr configuration
+repository](https://github.com/MikePapaSierra/herdr) to `~/herdr`. It then
+links the repository's `config.toml` and `plugins/usagebar.toml` into Herdr's
+active configuration paths. Runtime state, logs, sockets, and plugin-managed
+files remain outside the checkout.
 
 Apply only this setup with:
 
 ``ansible-playbook playbook.yml -l localhost -t herdr``
+
+### OpenCode configuration
+
+The `ai-agents` role checks out [the OpenCode configuration
+repository](https://github.com/MikePapaSierra/opencode) to `~/opencode`,
+installs its npm dependencies, and links `opencode.jsonc`, `tui.jsonc`, and
+the Neovim integration into OpenCode's and Neovim's active configuration
+paths. Runtime state, cached model data, session history, and authentication
+credentials remain outside the checkout.
+
+Apply only this setup with:
+
+``ansible-playbook playbook.yml -l localhost -t opencode``
+
+### Agent Skills
+
+The `ai-agents` role installs Agent Skills (https://skills.sh/) with the
+`skills` CLI (run through `npx`), which discovers every agent CLI on the
+machine (Claude, Copilot, OpenCode, etc.) and links each skill into that
+agent's own skills directory. Add entries to `ai_agent_skills` in
+`roles/ai-agents/defaults/main.yml` to install more.
+
+Apply only this setup with:
+
+``ansible-playbook playbook.yml -l localhost -t skills``
 
 Update of the operating system:
 
