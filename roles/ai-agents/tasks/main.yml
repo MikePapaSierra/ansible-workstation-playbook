@@ -2,8 +2,11 @@
 - name: Install AI agent CLIs
   ansible.builtin.import_tasks: install.yml
 
-- name: Install AI agent configurations and integrations
-  ansible.builtin.import_tasks: configuration.yml
+- name: Install Herdr configuration
+  ansible.builtin.import_tasks: herdr.yml
+
+- name: Install OpenCode configuration
+  ansible.builtin.import_tasks: opencode.yml
 
 - name: Install FreeCAD MCP addon
   ansible.builtin.import_tasks: freecad.yml
@@ -11,5 +14,5 @@
 - name: Register MCP servers with AI agent clients
   ansible.builtin.import_tasks: mcp-servers.yml
 
-- name: Install Agent Skills for AI agent clients
+- name: Install Agent Skills
   ansible.builtin.import_tasks: skills.yml

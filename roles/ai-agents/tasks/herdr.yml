@@ -1,0 +1,84 @@
+---
+- name: Install prerequisites for Herdr plugins
+  become: true
+  ansible.builtin.package:
+    name:
+      # Required to build the usagebar, herdr-plus, and token-dashboard
+      # plugins locally.
+      - go
+      # Required by the ray.file-explorer plugin.
+      - yazi
+      # Used by several plugins' helper scripts.
+      - jq
+    state: "{{ pkg_state }}"
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Get Herdr configuration repository
+  become: false
+  ansible.builtin.git:
+    repo: "{{ herdr_config_repository }}"
+    dest: "{{ herdr_config_checkout }}"
+    accept_hostkey: true
+    single_branch: true
+    version: "{{ herdr_config_version }}"
+    update: false
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Ensure Herdr runtime configuration directory exists
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_facts['user_dir'] }}/.config/herdr"
+    state: directory
+    mode: "0755"
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Link tracked Herdr configuration
+  become: false
+  ansible.builtin.file:
+    src: "{{ herdr_config_checkout }}/config.toml"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/herdr/config.toml"
+    state: link
+    force: true
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Install pinned Herdr plugins
+  become: false
+  ansible.builtin.command: >-
+    herdr plugin install {{ item.repo }} --ref {{ item.ref }} --yes
+  args:
+    creates: "{{ ansible_facts['user_dir'] }}/.config/herdr/plugins/config/{{ item.id }}"
+  loop: "{{ herdr_plugins }}"
+  loop_control:
+    label: "{{ item.repo }}"
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Ensure Agent Usage plugin configuration directory exists
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_facts['user_dir'] }}/.config/herdr/plugins/config/usagebar"
+    state: directory
+    mode: "0755"
+  tags:
+    - herdr
+    - ai-agents
+
+- name: Link tracked Agent Usage preferences
+  become: false
+  ansible.builtin.file:
+    src: "{{ herdr_config_checkout }}/plugins/usagebar.toml"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/herdr/plugins/config/usagebar/config.toml"
+    state: link
+    force: true
+  tags:
+    - herdr
+    - ai-agents

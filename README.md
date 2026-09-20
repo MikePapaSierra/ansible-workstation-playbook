@@ -48,37 +48,48 @@ Provisioning of the clean workstation:
 
 ``ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml -l localhost ``
 
-Update of the operating system:
-
-``ansible-playbook playbook.yml -l localhost -t osUpgrade``
-
-Update of the single package:
-
-``ansible-playbook playbook.yml -l localhost -t [app_name] --extra-vars "pkg_state=latest"``
-
 ## AI agent configuration
 
-The `ai-agents` role installs the OpenCode and Herdr CLIs, then clones their
-configuration repositories and links their portable configuration into the
-standard XDG paths. It also installs the existing FreeCAD MCP server for
-Claude, GitHub Copilot, and OpenCode; links optional shared skills into all
-three clients; installs the pinned Herdr plugins; and installs Herdr's managed
-OpenCode lifecycle hook.
+The `ai-agents` role installs the OpenCode, Herdr, Claude Code, and GitHub
+Copilot CLIs, then wires them together:
+
+- Clones the [OpenCode](https://github.com/MikePapaSierra/opencode) and
+  [Herdr](https://github.com/MikePapaSierra/herdr) configuration repositories
+  to `~/opencode` and `~/herdr`, installs OpenCode's npm dependencies, and
+  links each repository's portable, reviewed files into the standard XDG
+  paths (`~/.config/opencode`, `~/.config/herdr`, and
+  `~/.config/nvim/lua/plugins/opencode.lua`). Runtime state, logs, sockets,
+  node_modules, and credentials are deliberately left untracked.
+- Installs Herdr's pinned plugins (Agent Usage, Herdr Plus, Token Dashboard,
+  Yazi Explorer, and the Neovim navigation plugin) and their prerequisites
+  (Go, Yazi, `jq`), and installs Herdr's OpenCode lifecycle integration hook.
+- Registers the FreeCAD MCP server for Claude and GitHub Copilot with
+  `claude mcp add` / `copilot mcp add`. OpenCode's MCP servers are declared
+  directly in the tracked `opencode.jsonc` instead, so it isn't part of this
+  step.
+- Installs Agent Skills (https://skills.sh/) with the `skills` CLI (run
+  through `npx`), which discovers every agent CLI on the machine (Claude,
+  Copilot, OpenCode, etc.) and links each skill into that agent's own skills
+  directory. Add entries to `ai_agent_skills` in
+  `roles/ai-agents/defaults/main.yml` to install more.
+
+Node.js and npm are not installed directly: they already arrive as a
+dependency of the `opencode-bin`/`claude-code`/`github-copilot-cli` AUR
+packages. Installing the repository `nodejs` package explicitly would
+conflict with the `nodejs-lts-iron` package those AUR packages depend on.
 
 ```mermaid
 flowchart TD
     Playbook["Ansible workstation playbook"]
-    System["System role: Fish, Kitty, tmux, Neovim"]
     Agents["AI agents role"]
     OpenCodeRepo["~/opencode"]
     HerdrRepo["~/herdr"]
     OpenCodeConfig["~/.config/opencode"]
     HerdrConfig["~/.config/herdr"]
     NvimPlugin["~/.config/nvim/lua/plugins/opencode.lua"]
-    Skills["~/.local/share/agent-skills"]
+    Skills["~/.agents/skills (via npx skills)"]
     FreeCAD["FreeCAD MCP"]
 
-    Playbook --> System
     Playbook --> Agents
     Agents --> OpenCodeRepo
     Agents --> HerdrRepo
@@ -89,18 +100,23 @@ flowchart TD
     Agents --> FreeCAD
 ```
 
-Run just this setup after installing Ansible Galaxy dependencies:
+Apply only this setup with:
 
-```bash
-ansible-galaxy install -r requirements.yml
-ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml \
-  -l localhost --tags ai-agents
-```
+``ansible-playbook playbook.yml -l localhost -t ai-agents``
 
-Define `ai_agent_skills` in inventory or `group_vars` to install a skill source
-once under `~/.local/share/agent-skills` and link it to any selected clients.
-Each entry has `name`, `src`, optional `version`, and a `clients` list containing
-`claude`, `copilot`, and/or `opencode`.
+Or a single piece of it with the `herdr`, `opencode`, `skills`, or `mcp` tags,
+e.g.:
+
+``ansible-playbook playbook.yml -l localhost -t herdr``
+
+Update of the operating system:
+
+``ansible-playbook playbook.yml -l localhost -t osUpgrade``
+
+Update of the single package:
+
+``ansible-playbook playbook.yml -l localhost -t [app_name] --extra-vars "pkg_state=latest"``
+
 
 ## Testing
 
