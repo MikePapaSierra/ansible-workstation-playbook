@@ -18,10 +18,10 @@
 
 - name: Install OpenCode configuration's npm dependencies
   become: false
-  ansible.builtin.command: npm ci
+  ansible.builtin.command: npm ci --ignore-scripts
   args:
     chdir: "{{ opencode_config_checkout }}"
-    creates: "{{ opencode_config_checkout }}/node_modules"
+    creates: "{{ opencode_config_checkout }}/node_modules/@opencode-ai/plugin/package.json"
   tags:
     - opencode
     - ai-agents
@@ -69,4 +69,17 @@
     force: true
   tags:
     - opencode
+    - ai-agents
+
+# Lets Herdr track and restore OpenCode sessions (see `herdr integration
+# status`). Installs a plugin under ~/.config/opencode/plugins and adds it to
+# tui.jsonc; safe to re-run, and also repairs the hook after a Herdr upgrade
+# bumps its integration version.
+- name: Install Herdr OpenCode integration
+  become: false
+  ansible.builtin.command: herdr integration install opencode
+  changed_when: false
+  tags:
+    - opencode
+    - herdr
     - ai-agents

@@ -48,44 +48,66 @@ Provisioning of the clean workstation:
 
 ``ansible-playbook --ask-become-pass --ask-vault-pass playbook.yml -l localhost ``
 
-### Herdr configuration
+## AI agent configuration
 
-The `ai-agents` role installs Herdr, its pinned plugins (Agent Usage, Herdr
-Plus, Token Dashboard, Yazi Explorer, and the Neovim navigation plugin) and
-their prerequisites (Go, Yazi, `jq`), and checks out [the Herdr configuration
-repository](https://github.com/MikePapaSierra/herdr) to `~/herdr`. It then
-links the repository's `config.toml` and `plugins/usagebar.toml` into Herdr's
-active configuration paths. Runtime state, logs, sockets, and plugin-managed
-files remain outside the checkout.
+The `ai-agents` role installs the OpenCode, Herdr, Claude Code, and GitHub
+Copilot CLIs, then wires them together:
+
+- Clones the [OpenCode](https://github.com/MikePapaSierra/opencode) and
+  [Herdr](https://github.com/MikePapaSierra/herdr) configuration repositories
+  to `~/opencode` and `~/herdr`, installs OpenCode's npm dependencies, and
+  links each repository's portable, reviewed files into the standard XDG
+  paths (`~/.config/opencode`, `~/.config/herdr`, and
+  `~/.config/nvim/lua/plugins/opencode.lua`). Runtime state, logs, sockets,
+  node_modules, and credentials are deliberately left untracked.
+- Installs Herdr's pinned plugins (Agent Usage, Herdr Plus, Token Dashboard,
+  Yazi Explorer, and the Neovim navigation plugin) and their prerequisites
+  (Go, Yazi, `jq`), and installs Herdr's OpenCode lifecycle integration hook.
+- Registers the FreeCAD MCP server for Claude and GitHub Copilot with
+  `claude mcp add` / `copilot mcp add`. OpenCode's MCP servers are declared
+  directly in the tracked `opencode.jsonc` instead, so it isn't part of this
+  step.
+- Installs Agent Skills (https://skills.sh/) with the `skills` CLI (run
+  through `npx`), which discovers every agent CLI on the machine (Claude,
+  Copilot, OpenCode, etc.) and links each skill into that agent's own skills
+  directory. Add entries to `ai_agent_skills` in
+  `roles/ai-agents/defaults/main.yml` to install more.
+
+Node.js and npm are not installed directly: they already arrive as a
+dependency of the `opencode-bin`/`claude-code`/`github-copilot-cli` AUR
+packages. Installing the repository `nodejs` package explicitly would
+conflict with the `nodejs-lts-iron` package those AUR packages depend on.
+
+```mermaid
+flowchart TD
+    Playbook["Ansible workstation playbook"]
+    Agents["AI agents role"]
+    OpenCodeRepo["~/opencode"]
+    HerdrRepo["~/herdr"]
+    OpenCodeConfig["~/.config/opencode"]
+    HerdrConfig["~/.config/herdr"]
+    NvimPlugin["~/.config/nvim/lua/plugins/opencode.lua"]
+    Skills["~/.agents/skills (via npx skills)"]
+    FreeCAD["FreeCAD MCP"]
+
+    Playbook --> Agents
+    Agents --> OpenCodeRepo
+    Agents --> HerdrRepo
+    OpenCodeRepo -->|"symlinks"| OpenCodeConfig
+    OpenCodeRepo -->|"symlink"| NvimPlugin
+    HerdrRepo -->|"symlinks"| HerdrConfig
+    Agents --> Skills
+    Agents --> FreeCAD
+```
 
 Apply only this setup with:
+
+``ansible-playbook playbook.yml -l localhost -t ai-agents``
+
+Or a single piece of it with the `herdr`, `opencode`, `skills`, or `mcp` tags,
+e.g.:
 
 ``ansible-playbook playbook.yml -l localhost -t herdr``
-
-### OpenCode configuration
-
-The `ai-agents` role checks out [the OpenCode configuration
-repository](https://github.com/MikePapaSierra/opencode) to `~/opencode`,
-installs its npm dependencies, and links `opencode.jsonc`, `tui.jsonc`, and
-the Neovim integration into OpenCode's and Neovim's active configuration
-paths. Runtime state, cached model data, session history, and authentication
-credentials remain outside the checkout.
-
-Apply only this setup with:
-
-``ansible-playbook playbook.yml -l localhost -t opencode``
-
-### Agent Skills
-
-The `ai-agents` role installs Agent Skills (https://skills.sh/) with the
-`skills` CLI (run through `npx`), which discovers every agent CLI on the
-machine (Claude, Copilot, OpenCode, etc.) and links each skill into that
-agent's own skills directory. Add entries to `ai_agent_skills` in
-`roles/ai-agents/defaults/main.yml` to install more.
-
-Apply only this setup with:
-
-``ansible-playbook playbook.yml -l localhost -t skills``
 
 Update of the operating system:
 
@@ -94,6 +116,7 @@ Update of the operating system:
 Update of the single package:
 
 ``ansible-playbook playbook.yml -l localhost -t [app_name] --extra-vars "pkg_state=latest"``
+
 
 ## Testing
 

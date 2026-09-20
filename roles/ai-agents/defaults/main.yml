@@ -66,6 +66,10 @@ herdr_plugins:
 # OpenCode configuration is tracked in its own repository for the same
 # reason as Herdr's: keep the portable, reviewed configuration in Git while
 # leaving node_modules, plugin runtime state, and credentials untracked.
+# Node.js/npm aren't installed here: they already arrive as a dependency of
+# the opencode-bin/claude-code/github-copilot-cli AUR packages. Installing
+# the repository `nodejs` package explicitly would conflict with the
+# `nodejs-lts-iron` package those AUR packages depend on.
 opencode_config_repository: git@github.com:MikePapaSierra/opencode.git
 opencode_config_version: main
 opencode_config_checkout: "{{ ansible_facts['user_dir'] }}/opencode"
