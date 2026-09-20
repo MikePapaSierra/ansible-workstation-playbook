@@ -1,5 +1,13 @@
 pkg_state: latest
 
+# There's no inventory file in this repo: `hosts: localhost` in playbook.yml
+# resolves against Ansible's implicit localhost, which has no Python
+# interpreter configured. Without this, every run re-discovers the
+# interpreter and prints a warning that a future interpreter change could
+# alter the discovery result. Pin it to the distro-maintained `python3`
+# symlink (not a version-specific path) so upgrades keep working.
+ansible_python_interpreter: /usr/bin/python3
+
 timezone: Europe/Warsaw
 
 username: mps
